@@ -1032,11 +1032,13 @@
         "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 suposiciones o teorías inventadas sobre su personalidad basadas solo en su cara."
       ],
       2: [
-        "Tomarse de la mano por 1 minuto completo mientras siguen jugando.",
-        "Dar un abrazo cálido de 20 segundos como si fueran novios que no se ven hace semanas.",
-        "Acercarte al oído del otro y susurrarle qué te gustó de él/ella hoy.",
-        "Hacerle caricias suaves en la mano o en el antebrazo durante el siguiente turno.",
-        "Darle un beso lento en la mejilla, justo al lado de la comisura de los labios."
+        "Mano entrelazada: Toma la mano de tu acompañante con los dedos entrelazados sobre la mesa y mantenla así durante 1 minuto entero mientras siguen jugando.",
+        "Modo pareja: Tómate de la mano o del brazo de tu acompañante exactamente como si fueran novios durante 1 minuto completo.",
+        "El test del perfume: Acerca tu nariz al cuello de tu acompañante, huele su perfume durante 5 segundos y da un veredicto en voz alta calificándolo de 1 a 10.",
+        "Susurro al oído: Acércate a 5 centímetros de la oreja de tu acompañante y susúrrale en voz baja qué fue lo primero que pensaste al verlo/a hoy.",
+        "Beso en la mejilla: Dale un beso suave y pausado en la mejilla a tu acompañante, quedándote a milímetros de su rostro durante 3 segundos después del beso.",
+        "Catador de piel: Toca con dos dedos la mejilla o el antebrazo de tu acompañante y da una reseña exagerada como catador profesional calificando su suavidad.",
+        "El apodo secreto: Acércate al oído de tu acompañante y susúrrale el apodo más cursi o ridículo que le pondrías si fueran novios de hace años."
       ],
       3: [
         "Dar un beso suave y discreto en el cuello sin que nadie del lugar se dé cuenta.",
@@ -1067,7 +1069,7 @@
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v2')) || DEFAULT_DARES,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v3')) || DEFAULT_DARES,
       usedQuestions: new Set(),
       usedDares: new Set()
     };
@@ -1403,7 +1405,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v2', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v3', JSON.stringify(state.customDares));
       renderCustomDaresList();
     };
 
@@ -1506,7 +1508,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v2', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v3', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       sound.playSuccess();
@@ -1516,7 +1518,7 @@
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
       if (confirm('¿Restablecer todas las penitencias a las originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v2');
+        localStorage.removeItem('ruleta_dares_v3');
         renderCustomDaresList();
         sound.playTick();
       }
