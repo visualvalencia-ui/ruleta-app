@@ -831,10 +831,11 @@
         <div class="alert-icon">⚠️</div>
         <h2 class="alert-title">Nivel Privado Desbloqueado</h2>
         <p class="alert-desc">
-          Las siguientes penitencias y preguntas <b>no son aptas para lugares públicos</b>. Pidan la cuenta y muévanse a un lugar privado para continuar el juego.
+          Las penitencias de la siguiente fase están terminantemente prohibidas en lugares públicos.<br><br>
+          <b>Para continuar el juego y desbloquear el siguiente reto, deben pedir la cuenta de inmediato y trasladarse a un espacio 100% privado.</b>
         </p>
         <button class="btn-primary" id="btn-alert-ack" style="background: linear-gradient(135deg, #ff1744, #b71c1c);">
-          🤫 Entendido, pedir la cuenta
+          🤫 Pedir la cuenta y salir
         </button>
       </div>
     </div>
@@ -1051,10 +1052,11 @@
         "Mano en el muslo: Apoya tu mano abierta sobre el muslo de tu acompañante por debajo de la mesa y mantenla ahí durante todo el siguiente turno."
       ],
       4: [
-        "Mostrar por 2 segundos un detalle oculto de tu ropa o un lunar escondido discretamente.",
-        "Darle un roce suave de labios (o un beso corto de 3 segundos) con ojos cerrados.",
-        "Dejar que el otro te sostenga la cintura mientras le susurras algo al oído.",
-        "Acariciar los labios del otro con tu dedo pulgar mirándolo a los ojos.",
+        "Foto íntima en el baño: Debes ir al baño del lugar en este instante, tomarte una foto en el espejo mostrando tu ropa interior y enviársela de inmediato por WhatsApp a tu acompañante.",
+        "Beso clandestino en el cuello: Acércate disimuladamente y dale un beso lento y profundo en el cuello a tu acompañante sin que nadie en las otras mesas lo note.",
+        "Mano a la nalga: Pasa tu mano con firmeza por debajo de la mesa o fingiendo acomodarte y apriétale la nalga a tu acompañante durante 5 segundos.",
+        "Desabotonar pantalón: Desabotónale con una sola mano el primer botón del pantalón a tu acompañante y déjalo desabotonado.",
+        "Beso apasionado (30 segundos): Toma el rostro de tu acompañante y dale un beso apasionado con lengua durante 30 segundos continuos.",
         "ALERTA_PRIVADA"
       ]
     };
@@ -1072,7 +1074,7 @@
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v4')) || DEFAULT_DARES,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v5')) || DEFAULT_DARES,
       usedQuestions: new Set(),
       usedDares: new Set()
     };
@@ -1408,7 +1410,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v4', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v5', JSON.stringify(state.customDares));
       renderCustomDaresList();
     };
 
@@ -1511,7 +1513,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v4', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v5', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       sound.playSuccess();
@@ -1521,7 +1523,7 @@
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
       if (confirm('¿Restablecer todas las penitencias a las originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v4');
+        localStorage.removeItem('ruleta_dares_v5');
         renderCustomDaresList();
         sound.playTick();
       }
