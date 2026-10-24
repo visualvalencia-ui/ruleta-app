@@ -652,6 +652,29 @@
       margin-bottom: 26px;
     }
 
+    .tinder-match-badge {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ff7e67, #f43f5e);
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 126, 103, 0.5);
+      margin-bottom: 14px;
+    }
+
+    .subtle-bed-icon {
+      color: #ff7e67;
+      opacity: 0.8;
+      display: flex;
+      justify-content: center;
+      margin: 6px auto 14px auto;
+      filter: drop-shadow(0 0 8px rgba(255, 126, 103, 0.4));
+    }
+
     /* Modal / Drawer */
     .modal-backdrop {
       position: fixed;
@@ -932,66 +955,99 @@
         
         <!-- Step 1: Warning & Intro -->
         <div id="vote-step-1">
-          <div class="alert-icon">🌙</div>
-          <h2 class="alert-title">¡Nivel Cómplices Desbloqueado!</h2>
+          <div class="subtle-bed-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 19h20M2 10v9M22 10v9M2 14h20M6 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4M14 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4"/>
+            </svg>
+          </div>
+          <div class="tinder-match-badge">🔥 Match a Ciegas</div>
+          <h2 class="alert-title">¿Seguir en un lugar más cómodo?</h2>
           <p class="alert-desc">
-            Han superado todas las rondas de rompehielo. Los siguientes retos son más personales y están pensados para un lugar más tranquilo y cómodo.<br><br>
-            <b>Voten en secreto si quieren seguir jugando en otro lugar más privado.</b>
+            Votación a ciegas estilo Tinder:<br>
+            Cada uno votará en secreto en el celular. <b>Solo sabrán si coinciden si AMBOS dicen que sí.</b> Si alguno no coincide, el juego sigue normal aquí en el bar sin roces.
           </p>
           <button class="btn-primary" id="btn-start-vote">
-            🔒 VOTAR EN SECRETO ➔
+            🔒 VOTAR A CIEGAS ➔
           </button>
         </div>
 
         <!-- Step 2: Vote P2 (Ella) -->
         <div id="vote-step-2" style="display: none;">
-          <div class="alert-icon">📱</div>
+          <div class="subtle-bed-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 19h20M2 10v9M22 10v9M2 14h20M6 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4M14 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4"/>
+            </svg>
+          </div>
           <h2 class="alert-title" id="vote-title-p2">Vota Jugador 2</h2>
           <p class="alert-desc" id="vote-desc-p2">
-            Pásale el celular para que vote en secreto:<br><br>
-            ¿Te gustaría continuar la charla y el juego en un lugar más cómodo y privado?
+            Pásale el celular a <b>Jugador 2</b> para que vote a ciegas:<br><br>
+            ¿Te gustaría salir de este bar y continuar el juego en un lugar privado y más cómodo?
           </p>
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <button class="btn-green" id="btn-vote-p2-yes" style="padding: 18px 14px; font-size: 17px; font-weight: 850;">
-              ✨ SÍ, vamos a un lugar más cómodo
+              💚 SÍ, vamos a un lugar más cómodo
             </button>
             <button class="btn-outline" id="btn-vote-p2-no" style="padding: 14px; font-size: 15px; font-weight: 700;">
-              ✋ Quedarnos un rato más acá
+              ❌ Quedarnos aquí en el bar
             </button>
           </div>
         </div>
 
         <!-- Step 3: Vote P1 (Camilo) -->
         <div id="vote-step-3" style="display: none;">
-          <div class="alert-icon">🤫</div>
+          <div class="subtle-bed-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 19h20M2 10v9M22 10v9M2 14h20M6 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4M14 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4"/>
+            </svg>
+          </div>
           <h2 class="alert-title" id="vote-title-p1">Vota Jugador 1</h2>
           <p class="alert-desc" id="vote-desc-p1">
-            ¡Respuesta guardada en secreto!<br>Devuélvele el celular a Jugador 1.<br><br>
-            ¿Tú también quieres continuar en un lugar más cómodo y privado?
+            ¡Voto registrado en secreto! 🤫<br>Devuélvele el celular a <b>Jugador 1</b>.<br><br>
+            ¿Tú también quieres continuar en un lugar privado y más cómodo?
           </p>
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <button class="btn-green" id="btn-vote-p1-yes" style="padding: 18px 14px; font-size: 17px; font-weight: 850;">
-              ✨ SÍ, vamos a un lugar más cómodo
+              💚 SÍ, vamos a un lugar más cómodo
             </button>
             <button class="btn-outline" id="btn-vote-p1-no" style="padding: 14px; font-size: 15px; font-weight: 700;">
-              ✋ Quedarnos acá
+              ❌ Quedarnos aquí en el bar
             </button>
           </div>
         </div>
 
-        <!-- Step 4: Verdict (¡Ambos dijeron que sí!) -->
-        <div id="vote-step-4" style="display: none;">
-          <div class="alert-icon" style="font-size: 56px;">🥂</div>
-          <h2 class="alert-title" style="color: #34d399; font-size: 26px; font-weight: 950; text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);">
-            ¡HAY QUÍMICA! AMBOS DIJERON SÍ
+        <!-- Step 4A: MATCH (Ambos dijeron que sí) -->
+        <div id="vote-match-success" style="display: none;">
+          <div class="tinder-match-badge" style="font-size: 16px; padding: 8px 20px;">🔥 IT'S A MATCH! 🔥</div>
+          <div class="subtle-bed-icon">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 19h20M2 10v9M22 10v9M2 14h20M6 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4M14 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4"/>
+            </svg>
+          </div>
+          <h2 class="alert-title" style="color: #34d399; font-size: 26px; font-weight: 950; text-shadow: 0 0 18px rgba(52, 211, 153, 0.6);">
+            ¡AMBOS DIJERON QUE SÍ!
           </h2>
           <p class="alert-desc">
-            <b>Conexión confirmada:</b><br>
-            Ambos coincidieron en continuar la noche en un ambiente más cómodo y tranquilo.<br><br>
-            <b>Pidan la cuenta cuando quieran y pasen a un lugar privado para el siguiente nivel.</b>
+            <b>Coincidencia mutua confirmada:</b><br>
+            Ambos coincidieron en continuar la noche en un ambiente más cómodo y privado.<br><br>
+            <b>Pidan la cuenta cuando quieran y pasen a un lugar privado a continuar.</b>
           </p>
-          <button class="btn-primary" id="btn-vote-finish" style="padding: 18px 24px; font-size: 18px; font-weight: 900; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 25px rgba(16,185,129,0.4);">
-            ✨ Pedir la cuenta y continuar
+          <button class="btn-primary" id="btn-match-bill" style="padding: 18px 24px; font-size: 18px; font-weight: 900; background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 25px rgba(16,185,129,0.5);">
+            🥂 Pedir la cuenta y salir
+          </button>
+        </div>
+
+        <!-- Step 4B: NO MATCH (Uno o ambos dijeron que no - nadie pasa pena) -->
+        <div id="vote-match-fail" style="display: none;">
+          <div class="alert-icon" style="font-size: 54px;">🍻</div>
+          <h2 class="alert-title" style="color: #818cf8; font-size: 24px; font-weight: 900;">
+            ¡Excelente velada por hoy!
+          </h2>
+          <p class="alert-desc" style="font-size: 18px; line-height: 1.5; color: #cbd5e1;">
+            Por ahora no hubo coincidencia para movernos de sitio.<br><br>
+            <b>El juego recomienda seguir disfrutando los tragos y la buena charla aquí con calma.</b>
+          </p>
+          <button class="btn-primary" id="btn-match-continue-bar" style="padding: 18px 24px; font-size: 17px; font-weight: 850;">
+            🎲 Seguir jugando aquí relajados
           </button>
         </div>
 
@@ -1957,13 +2013,13 @@
       });
     });
 
-    // Secret Vote Listeners
+    // Secret Blind Match Listeners
     document.getElementById('btn-start-vote').addEventListener('click', () => {
       sound.playTick();
       document.getElementById('vote-step-1').style.display = 'none';
       document.getElementById('vote-step-2').style.display = 'block';
       document.getElementById('vote-title-p2').innerText = `Vota ${state.p2}`;
-      document.getElementById('vote-desc-p2').innerHTML = `Pásale el celular a <b>${state.p2}</b> para que vote en secreto:<br><br>¿Quieres continuar el juego en un lugar privado y más cómodo?`;
+      document.getElementById('vote-desc-p2').innerHTML = `Pásale el celular a <b>${state.p2}</b> para que vote a ciegas:<br><br>¿Te gustaría continuar la noche y los retos en un lugar más cómodo y privado?`;
     });
 
     function registerVoteP2(vote) {
@@ -1973,7 +2029,7 @@
       document.getElementById('vote-step-2').style.display = 'none';
       document.getElementById('vote-step-3').style.display = 'block';
       document.getElementById('vote-title-p1').innerText = `Vota ${state.p1}`;
-      document.getElementById('vote-desc-p1').innerHTML = `¡Voto registrado en secreto! 🤫<br>Devuélvele el celular a <b>${state.p1}</b>.<br><br>¿Tú también quieres continuar en un lugar privado?`;
+      document.getElementById('vote-desc-p1').innerHTML = `¡Voto registrado en secreto! 🤫<br>Devuélvele el celular a <b>${state.p1}</b>.<br><br>¿Tú también quieres continuar en un lugar más cómodo y privado?`;
     }
 
     document.getElementById('btn-vote-p2-yes').addEventListener('click', () => registerVoteP2(true));
@@ -1981,17 +2037,36 @@
 
     function registerVoteP1(vote) {
       state.voteP1 = vote;
-      sound.playSuccess();
-      sound.vibrate([100, 50, 100, 50, 200]);
       document.getElementById('vote-step-3').style.display = 'none';
-      document.getElementById('vote-step-4').style.display = 'block';
+
+      // Chequeo de coincidencia estilo Tinder:
+      // Solo si AMBOS dijeron que sí, es Match!
+      if (state.voteP1 === true && state.voteP2 === true) {
+        sound.playSuccess();
+        sound.vibrate([100, 50, 100, 50, 200]);
+        document.getElementById('vote-match-success').style.display = 'block';
+        document.getElementById('vote-match-fail').style.display = 'none';
+      } else {
+        // Si uno o ambos dijeron que no, no hay rechazo visible ni culpas
+        sound.playTick();
+        sound.vibrate(40);
+        document.getElementById('vote-match-success').style.display = 'none';
+        document.getElementById('vote-match-fail').style.display = 'block';
+      }
     }
 
     document.getElementById('btn-vote-p1-yes').addEventListener('click', () => registerVoteP1(true));
     document.getElementById('btn-vote-p1-no').addEventListener('click', () => registerVoteP1(false));
 
-    document.getElementById('btn-vote-finish').addEventListener('click', () => {
+    document.getElementById('btn-match-bill').addEventListener('click', () => {
       sound.playSuccess();
+      showScreen('screen-wheel');
+    });
+
+    document.getElementById('btn-match-continue-bar').addEventListener('click', () => {
+      sound.playSuccess();
+      state.isLevelLocked = true; // Sostener el nivel para que sigan jugando en el bar tranquilos
+      updateTrackerUI();
       showScreen('screen-wheel');
     });
 
