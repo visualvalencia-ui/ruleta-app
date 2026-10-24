@@ -1,10 +1,10 @@
 {
-  "name": "Ruleta sin Filtro",
-  "short_name": "Ruleta",
+  "name": "Conexión Casual",
+  "short_name": "Conexión",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0a080e",
-  "theme_color": "#ff3366",
+  "background_color": "#141726",
+  "theme_color": "#ff7e67",
   "orientation": "portrait",
   "icons": [
     {

@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Ruleta sin Filtro</title>
+  <title>Conexión Casual • Juego de Citas</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff3366">
+  <meta name="theme-color" content="#16192b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <style>
     :root {
-      --bg: #0b0910;
-      --card-bg: rgba(23, 18, 33, 0.85);
-      --card-border: rgba(255, 51, 102, 0.25);
-      --primary: #ff3366;
-      --primary-glow: rgba(255, 51, 102, 0.5);
-      --secondary: #9933ff;
-      --secondary-glow: rgba(153, 51, 255, 0.5);
-      --accent: #ffb84d;
-      --success: #00e676;
-      --danger: #ff1744;
-      --text: #f5f3f7;
-      --text-muted: #9e97aa;
-      --radius: 20px;
+      --bg: #141726;
+      --card-bg: rgba(30, 35, 58, 0.88);
+      --card-border: rgba(167, 139, 250, 0.28);
+      --primary: #ff7e67;
+      --primary-glow: rgba(255, 126, 103, 0.45);
+      --secondary: #818cf8;
+      --secondary-glow: rgba(129, 140, 248, 0.45);
+      --accent: #fbbf24;
+      --success: #34d399;
+      --danger: #fb7185;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius: 22px;
     }
 
     * {
@@ -39,8 +39,9 @@
     body {
       background: var(--bg);
       background-image: 
-        radial-gradient(circle at 10% 15%, rgba(153, 51, 255, 0.18) 0%, transparent 40%),
-        radial-gradient(circle at 90% 85%, rgba(255, 51, 102, 0.18) 0%, transparent 40%);
+        radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255, 126, 103, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 60%);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       min-height: 100vh;
@@ -303,7 +304,7 @@
     /* Buttons */
     .btn-primary {
       width: 100%;
-      background: linear-gradient(135deg, var(--primary), #e6005c);
+      background: linear-gradient(135deg, #ff7e67, #f43f5e);
       color: white;
       border: none;
       border-radius: 16px;
@@ -322,6 +323,18 @@
 
     .btn-primary:active {
       transform: scale(0.97);
+    }
+
+    .safety-banner {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      color: #a7f3d0;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
     }
 
     /* Wheel Screen */
@@ -345,7 +358,7 @@
     #wheel-canvas {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 20px rgba(153, 51, 255, 0.35));
+      filter: drop-shadow(0 0 22px rgba(129, 140, 248, 0.3));
       border-radius: 50%;
     }
 
@@ -365,9 +378,9 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #1b1424, #0b0811);
+      background: linear-gradient(135deg, #252b48, #141726);
       border: 3px solid var(--primary);
-      box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(255, 51, 102, 0.4);
+      box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(255, 126, 103, 0.35);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -405,7 +418,7 @@
       border-radius: var(--radius);
       padding: 26px 20px;
       width: 100%;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(20px);
       text-align: center;
       position: relative;
@@ -420,7 +433,7 @@
       text-transform: uppercase;
       padding: 4px 12px;
       border-radius: 12px;
-      background: rgba(255, 51, 102, 0.15);
+      background: rgba(255, 126, 103, 0.15);
       color: var(--primary);
       border: 1px solid var(--primary);
       margin-bottom: 14px;
@@ -495,7 +508,7 @@
     }
 
     .btn-green {
-      background: linear-gradient(135deg, #00c853, #009624);
+      background: linear-gradient(135deg, #10b981, #059669);
       color: white;
       border: none;
       border-radius: 14px;
@@ -503,11 +516,11 @@
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
     }
 
     .btn-red {
-      background: linear-gradient(135deg, #ff1744, #d50000);
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
       color: white;
       border: none;
       border-radius: 14px;
@@ -515,7 +528,7 @@
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
     }
 
     .btn-outline {
@@ -531,18 +544,18 @@
 
     /* Private Level Alert Screen */
     .alert-card {
-      background: linear-gradient(145deg, #1f0710, #120309);
-      border: 2px solid #ff1744;
+      background: linear-gradient(145deg, #1e2238, #141726);
+      border: 2px solid var(--secondary);
       border-radius: var(--radius);
       padding: 30px 22px;
       text-align: center;
-      box-shadow: 0 0 50px rgba(255, 23, 68, 0.4);
-      animation: pulseAlert 2s infinite ease-in-out;
+      box-shadow: 0 0 45px rgba(129, 140, 248, 0.35);
+      animation: pulseAlert 2.5s infinite ease-in-out;
     }
 
     @keyframes pulseAlert {
-      0%, 100% { box-shadow: 0 0 25px rgba(255, 23, 68, 0.4); border-color: #ff1744; }
-      50% { box-shadow: 0 0 50px rgba(255, 23, 68, 0.7); border-color: #ff5252; }
+      0%, 100% { box-shadow: 0 0 25px rgba(129, 140, 248, 0.3); border-color: var(--secondary); }
+      50% { box-shadow: 0 0 45px rgba(255, 126, 103, 0.5); border-color: var(--primary); }
     }
 
     .alert-icon {
@@ -554,16 +567,15 @@
     .alert-title {
       font-size: 22px;
       font-weight: 900;
-      color: #ff3366;
+      color: var(--primary);
       margin-bottom: 14px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
     .alert-desc {
       font-size: 16px;
       line-height: 1.5;
-      color: #fce4ec;
+      color: #e2e8f0;
       margin-bottom: 24px;
     }
 
@@ -571,7 +583,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       z-index: 100;
       display: none;
@@ -584,7 +596,7 @@
     }
 
     .modal-sheet {
-      background: #14101d;
+      background: #1a1e33;
       border-top: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 24px 24px 0 0;
       width: 100%;
@@ -654,8 +666,8 @@
   <!-- Top Header -->
   <header>
     <div class="brand">
-      <div class="brand-icon">🔥</div>
-      <div class="brand-title">Ruleta sin Filtro</div>
+      <div class="brand-icon">✨</div>
+      <div class="brand-title">Conexión Casual</div>
     </div>
     <div class="header-actions">
       <button class="icon-btn" id="btn-toggle-sound" title="Sonido">🔊</button>
@@ -666,7 +678,7 @@
   <!-- Tension Progression Bar -->
   <div class="tracker-bar" id="tracker-bar" style="display: none;">
     <div class="phase-badge" id="phase-badge">
-      <span>🟢</span> <span id="phase-text">Fase 1: Hielo</span>
+      <span>🌱</span> <span id="phase-text">Nivel 1: Rompehielo</span>
     </div>
     <div class="phase-meter">
       <div class="phase-fill" id="phase-fill"></div>
@@ -679,8 +691,8 @@
     <!-- SCREEN 0: SETUP / WELCOME -->
     <div class="screen active" id="screen-setup">
       <div class="setup-card">
-        <h1 class="setup-title">Juego de Citas</h1>
-        <p class="setup-subtitle">Una ruleta equitativa, cumplidos sinceros y retos que suben de temperatura sin que se den cuenta.</p>
+        <h1 class="setup-title">Rompehielo &amp; Conexión</h1>
+        <p class="setup-subtitle">Un juego social para conocerse de verdad, reírse un rato y descubrir qué tanta complicidad tienen.</p>
 
         <div class="input-group">
           <label class="input-label">Jugador 1</label>
@@ -693,41 +705,45 @@
         </div>
 
         <div class="input-group">
-          <label class="input-label">Tiempo disponible / Ritmo de la cita</label>
+          <label class="input-label">Ritmo de la charla</label>
           <div class="duration-selector">
             <div class="duration-btn" data-hours="1">
-              <span class="emoji">⚡</span>
+              <span class="emoji">☕</span>
               <span class="time">1 Hora</span>
-              <span class="tag">Express</span>
+              <span class="tag">Ligero</span>
             </div>
             <div class="duration-btn" data-hours="2">
-              <span class="emoji">🔥</span>
+              <span class="emoji">🍻</span>
               <span class="time">2 Horas</span>
-              <span class="tag">Estándar</span>
+              <span class="tag">Fluido</span>
             </div>
             <div class="duration-btn selected" data-hours="3">
-              <span class="emoji">⏳</span>
+              <span class="emoji">🌙</span>
               <span class="time">3 Horas</span>
-              <span class="tag">Gradual</span>
+              <span class="tag">Charla Larga</span>
             </div>
           </div>
         </div>
 
         <button class="btn-primary" id="btn-start-game">
-          <span>COMENZAR EL JUEGO</span> ➔
+          <span>EMPEZAR A JUGAR</span> ➔
         </button>
+
+        <div class="safety-banner">
+          🛡️ <b>Regla de confianza:</b> Todo es en buena onda y para divertirse. Siempre pueden cambiar cualquier reto con un toque.
+        </div>
       </div>
     </div>
 
     <!-- SCREEN 1: WHEEL -->
     <div class="screen" id="screen-wheel">
-      <div class="turn-hint" id="wheel-turn-hint">Giren la ruleta para ver a quién le toca</div>
+      <div class="turn-hint" id="wheel-turn-hint">Giren la ruleta para ver el siguiente turno</div>
 
       <div class="wheel-container">
         <!-- Needle Pointer -->
         <svg class="wheel-needle" viewBox="0 0 28 36">
-          <path d="M14 36 L0 10 C0 4.5 6.3 0 14 0 C21.7 0 28 4.5 28 10 Z" fill="#ffb84d" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
-          <circle cx="14" cy="11" r="5" fill="#1b1424"/>
+          <path d="M14 36 L0 10 C0 4.5 6.3 0 14 0 C21.7 0 28 4.5 28 10 Z" fill="#fbbf24" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+          <circle cx="14" cy="11" r="5" fill="#141726"/>
         </svg>
 
         <!-- Canvas Wheel -->
@@ -746,14 +762,14 @@
       </div>
     </div>
 
-    <!-- SCREEN 2: TIMER / QUESTION (40s) -->
+    <!-- SCREEN 2: TIMER / QUESTION (30s) -->
     <div class="screen" id="screen-timer">
       <div class="action-card">
         <div class="card-tag" id="timer-tag">Turno</div>
         <h2 class="card-title" id="timer-title">Cumplido Sincero</h2>
         
         <div class="card-desc" id="timer-desc">
-          Tienes 30s para observar, pensar o indagar un cumplido sincero. ¡Prohibido repetir!
+          Tienes 30s para observar, pensar o indagar un cumplido sincero. ¡Vale mirar detalles!
         </div>
 
         <!-- 30s Circular Timer -->
@@ -767,10 +783,10 @@
 
         <div class="btn-grid-2">
           <button class="btn-green" id="btn-timer-pass">
-            ✅ Pasó la prueba
+            ✨ ¡Te creo! Siguiente
           </button>
           <button class="btn-red" id="btn-timer-fail">
-            ❌ No te creo / Argumentar
+            🤔 Dudo / Argumenta
           </button>
         </div>
       </div>
@@ -779,10 +795,10 @@
     <!-- SCREEN 3: DEFENSE / ARGUMENTACIÓN (40s) -->
     <div class="screen" id="screen-defense">
       <div class="action-card">
-        <div class="card-tag" style="background: rgba(255, 184, 77, 0.2); color: var(--accent); border-color: var(--accent);">¡Objeción! Modo Argumentar</div>
+        <div class="card-tag" style="background: rgba(251, 191, 36, 0.2); color: var(--accent); border-color: var(--accent);">🗣️ Ronda de Argumentos</div>
         <h2 class="card-title">Tienes 40 Segundos</h2>
         <div class="card-desc">
-          Míralo/a a los ojos y argumenta con hechos por qué estás diciendo la verdad absoluta.
+          Míralo/a a los ojos y explica con detalles por qué lo que acabas de decir es 100% real.
         </div>
 
         <!-- 40s Timer -->
@@ -796,49 +812,53 @@
 
         <div class="btn-grid-2">
           <button class="btn-green" id="btn-defense-pass">
-            😎 Convencido / Le creo
+            😊 Me convenciste
           </button>
           <button class="btn-red" id="btn-defense-fail">
-            🔥 No me convenció ➔ Penitencia
+            🎲 No me convenció ➔ Reto
           </button>
         </div>
       </div>
     </div>
 
-    <!-- SCREEN 4: DARE / PENITENCIA -->
+    <!-- SCREEN 4: DARE / RETO DE COMPLICIDAD -->
     <div class="screen" id="screen-dare">
       <div class="action-card">
-        <div class="card-tag" id="dare-phase-tag">Fase 1: Inocente</div>
-        <h2 class="card-title" id="dare-title">Penitencia Obligatoria</h2>
+        <div class="card-tag" id="dare-phase-tag">Nivel 1: Rompehielo</div>
+        <h2 class="card-title" id="dare-title">Reto de Complicidad</h2>
         <div class="card-desc" id="dare-text">
           Toma la mano de tu acompañante durante 1 minuto completo mientras siguen jugando.
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
           <button class="btn-outline" id="btn-swap-dare">
-            🔄 Cambiar por otro reto del mismo nivel
+            🔄 Cambiar por otro reto de este nivel
           </button>
           <button class="btn-primary" id="btn-dare-done">
-            ✅ Reto Cumplido ➔ Volver
+            ✨ Reto Cumplido ➔ Continuar
           </button>
+        </div>
+
+        <div class="safety-banner" style="margin-top: 12px;">
+          💡 Si un reto te da pena, puedes usar el botón de cambiar sin problema.
         </div>
       </div>
     </div>
 
-    <!-- SCREEN 5: PRIVATE LEVEL UNLOCKED / SECRET VOTE -->
+    <!-- SCREEN 5: NIVEL CÓMPLICES / SECRET VOTE -->
     <div class="screen" id="screen-private-alert">
       <div class="alert-card">
         
         <!-- Step 1: Warning & Intro -->
         <div id="vote-step-1">
-          <div class="alert-icon">⚠️</div>
-          <h2 class="alert-title">Nivel Privado Desbloqueado</h2>
+          <div class="alert-icon">🌙</div>
+          <h2 class="alert-title">¡Nivel Cómplices Desbloqueado!</h2>
           <p class="alert-desc">
-            Las penitencias de la siguiente fase están terminantemente prohibidas en público.<br><br>
-            Para continuar, <b>ambos deben votar en secreto</b> si desean trasladarse a un espacio 100% privado y más cómodo.
+            Han superado todas las rondas de rompehielo. Los siguientes retos son más personales y están pensados para un lugar más tranquilo y cómodo.<br><br>
+            <b>Voten en secreto si quieren seguir jugando en otro lugar más privado.</b>
           </p>
-          <button class="btn-primary" id="btn-start-vote" style="background: linear-gradient(135deg, #ff1744, #b71c1c);">
-            🔒 COMENZAR VOTACIÓN SECRETA ➔
+          <button class="btn-primary" id="btn-start-vote">
+            🔒 VOTAR EN SECRETO ➔
           </button>
         </div>
 
@@ -848,14 +868,14 @@
           <h2 class="alert-title" id="vote-title-p2">Vota Jugador 2</h2>
           <p class="alert-desc" id="vote-desc-p2">
             Pásale el celular para que vote en secreto:<br><br>
-            ¿Quieres continuar el juego en un lugar privado y más cómodo?
+            ¿Te gustaría continuar la charla y el juego en un lugar más cómodo y privado?
           </p>
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <button class="btn-green" id="btn-vote-p2-yes" style="padding: 16px; font-size: 16px;">
-              😏 SÍ, continuar en privado
+              ✨ SÍ, vamos a un lugar más cómodo
             </button>
             <button class="btn-outline" id="btn-vote-p2-no" style="padding: 12px; font-size: 14px;">
-              ✋ NO, quedarnos acá
+              ✋ Quedarnos un rato más acá
             </button>
           </div>
         </div>
@@ -865,32 +885,32 @@
           <div class="alert-icon">🤫</div>
           <h2 class="alert-title" id="vote-title-p1">Vota Jugador 1</h2>
           <p class="alert-desc" id="vote-desc-p1">
-            ¡Voto registrado en secreto!<br>Devuélvele el celular a Jugador 1.<br><br>
-            ¿Tú también quieres continuar en un lugar privado?
+            ¡Respuesta guardada en secreto!<br>Devuélvele el celular a Jugador 1.<br><br>
+            ¿Tú también quieres continuar en un lugar más cómodo y privado?
           </p>
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <button class="btn-green" id="btn-vote-p1-yes" style="padding: 16px; font-size: 16px;">
-              😏 SÍ, continuar a solas
+              ✨ SÍ, vamos a un lugar más cómodo
             </button>
             <button class="btn-outline" id="btn-vote-p1-no" style="padding: 12px; font-size: 14px;">
-              ✋ NO
+              ✋ Quedarnos acá
             </button>
           </div>
         </div>
 
         <!-- Step 4: Verdict (¡Ambos dijeron que sí!) -->
         <div id="vote-step-4" style="display: none;">
-          <div class="alert-icon" style="font-size: 50px;">🔥</div>
-          <h2 class="alert-title" style="color: #00e676; font-size: 22px; text-shadow: 0 0 15px rgba(0, 230, 118, 0.6);">
-            ¡AMBOS DIJERON QUE SÍ!
+          <div class="alert-icon" style="font-size: 50px;">🥂</div>
+          <h2 class="alert-title" style="color: #34d399; font-size: 22px; text-shadow: 0 0 15px rgba(52, 211, 153, 0.5);">
+            ¡HAY QUÍMICA! AMBOS DIJERON SÍ
           </h2>
           <p class="alert-desc">
-            <b>Veredicto unánime de la Ruleta:</b><br>
-            El juego no se puede seguir jugando en el bar.<br><br>
-            <b>Pidan la cuenta de inmediato y trasládense a un espacio 100% privado para continuar el juego.</b>
+            <b>Conexión confirmada:</b><br>
+            Ambos coincidieron en continuar la noche en un ambiente más cómodo y tranquilo.<br><br>
+            <b>Pidan la cuenta cuando quieran y pasen a un lugar privado para el siguiente nivel.</b>
           </p>
-          <button class="btn-primary" id="btn-vote-finish" style="background: linear-gradient(135deg, #00c853, #009624); box-shadow: 0 0 25px rgba(0,230,118,0.5);">
-            🥂 Pedir la cuenta y salir ya
+          <button class="btn-primary" id="btn-vote-finish" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 25px rgba(16,185,129,0.4);">
+            ✨ Pedir la cuenta y continuar
           </button>
         </div>
 
@@ -929,10 +949,10 @@
 
       <div class="input-group" style="display: flex; gap: 8px;">
         <select id="select-new-dare-phase" class="text-input" style="flex: 1;">
-          <option value="1">Fase 1: Inocente</option>
-          <option value="2">Fase 2: Cercanía</option>
-          <option value="3">Fase 3: Tensión/Coqueteo</option>
-          <option value="4">Fase 4: Picante/Privado</option>
+          <option value="1">Nivel 1: Rompehielo</option>
+          <option value="2">Nivel 2: Confianza</option>
+          <option value="3">Nivel 3: Química</option>
+          <option value="4">Nivel 4: Cómplices</option>
         </select>
         <button class="btn-primary" id="btn-add-custom-dare" style="width: auto; padding: 10px 18px;">
           ➕ Añadir
@@ -1082,39 +1102,39 @@
 
     const DEFAULT_DARES = {
       1: [
-        "Comparar manos: Toma la mano de tu acompañante, apóyala sobre la tuya y dile si la sientes más suave o más grande.",
-        "Mirada fija: Sostén la mirada a los ojos de tu acompañante durante 15 segundos sin parpadear ni reírte.",
-        "Selfie ridícula: Tómate una foto en tu celular haciendo la cara o gesto ridículo que tu acompañante te ordene.",
-        "Lectura de mano: Toma la mano de tu acompañante con ambas manos por 20 segundos y adivínale un futuro chistoso.",
-        "Foto en Tinder: Sube una foto graciosa tomada en la mesa a tu perfil de Tinder por lo que reste de la cita.",
-        "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 suposiciones o teorías inventadas sobre su personalidad basadas solo en su cara."
+        "Comparar manos: Toma la mano de tu acompañante, apóyala sobre la tuya y dile si la sientes más suave o más cálida.",
+        "Mirada fija: Sostén la mirada a los ojos de tu acompañante durante 15 segundos intentando no reírte.",
+        "Selfie divertida: Tómense o tómate una foto haciendo el gesto gracioso que tu acompañante elija.",
+        "Lectura de mano: Toma la mano de tu acompañante con ambas manos por 20 segundos y adivínale un futuro divertido.",
+        "Reto de perfil: Sube una foto espontánea tomada en la mesa a tu perfil por lo que reste de la cita.",
+        "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 teorías curiosas sobre su personalidad."
       ],
       2: [
-        "Mano entrelazada: Toma la mano de tu acompañante con los dedos entrelazados sobre la mesa y mantenla así durante 1 minuto entero mientras siguen jugando.",
-        "Modo pareja: Tómate de la mano o del brazo de tu acompañante exactamente como si fueran novios durante 1 minuto completo.",
-        "El test del perfume: Acerca tu nariz al cuello de tu acompañante, huele su perfume durante 5 segundos y da un veredicto en voz alta calificándolo de 1 a 10.",
-        "Susurro al oído: Acércate a 5 centímetros de la oreja de tu acompañante y susúrrale en voz baja qué fue lo primero que pensaste al verlo/a hoy.",
-        "Beso en la mejilla: Dale un beso suave y pausado en la mejilla a tu acompañante, quedándote a milímetros de su rostro durante 3 segundos después del beso.",
-        "Catador de piel: Toca con dos dedos la mejilla o el antebrazo de tu acompañante y da una reseña exagerada como catador profesional calificando su suavidad.",
-        "El apodo secreto: Acércate al oído de tu acompañante y susúrrale el apodo más cursi o ridículo que le pondrías si fueran novios de hace años."
+        "Mano entrelazada: Toma la mano de tu acompañante con los dedos entrelazados sobre la mesa durante 1 minuto mientras siguen charlando.",
+        "Modo pareja: Tómate de la mano o del brazo de tu acompañante como si fueran novios de toda la vida durante 1 minuto.",
+        "El test del perfume: Acércate un momento a su cuello, siente su aroma por 5 segundos y califícalo de 1 a 10.",
+        "Secreto al oído: Acércate a su oído y cuéntale en voz baja qué fue lo primero que pensaste al verlo/a llegar hoy.",
+        "Beso en la mejilla: Dale un beso suave y lento en la mejilla, quedándote cerquita durante 3 segundos.",
+        "Catador de suavidad: Toca con dos dedos su mejilla o antebrazo y da una reseña exagerada calificando su piel.",
+        "El apodo secreto: Susúrrale al oído el apodo más tierno o gracioso que le pondrías si fueran pareja."
       ],
       3: [
-        "Galería sexy: Abre tu celular y muéstrale a tu acompañante durante 5 segundos la foto donde te veas más atrevido/a o atractivo/a sin tapar nada.",
-        "Pregunta íntima sin filtro: Responde con la verdad absoluta a una pregunta íntima o atrevida que te haga tu acompañante en este instante.",
-        "Radiografía de prendas: Describe en voz baja y con detalle qué prendas o ropa interior llevas puestas debajo de lo visible.",
-        "Respiración en el oído: Acerca tus labios a 2 centímetros de la oreja o cuello de tu acompañante y respira despacio durante 10 segundos en silencio.",
-        "Masaje de hombros: Dale un masaje firme y relajante a tu acompañante en los hombros y la nuca durante 30 segundos continuos.",
-        "El trago de castigo: Tómate un trago largo de un solo golpe (un cuarto de tu vaso) mientras sostienes la mirada fija a los ojos de tu acompañante.",
-        "Mensaje sin censura: Escribe en un mensaje privado de WhatsApp o en una servilleta qué pensamiento atrevido o íntimo te inspira tu acompañante hoy.",
-        "Mano en el muslo: Apoya tu mano abierta sobre el muslo de tu acompañante por debajo de la mesa y mantenla ahí durante todo el siguiente turno."
+        "Foto favorita: Abre tu galería y muéstrale durante 5 segundos una foto tuya donde sientas que te ves muy bien o atractiva/o.",
+        "Pregunta sin filtro: Responde con total sinceridad a una pregunta curiosa o íntima que tu acompañante quiera hacerte.",
+        "Detalle oculto: Cuenta en voz baja al oído de qué color o estilo es la prenda interior que elegiste hoy.",
+        "Cercanía al oído: Acércate muy cerca de su oreja o cuello durante 10 segundos en silencio sin reírte.",
+        "Masaje relajante: Dale un masaje suave en los hombros y la nuca a tu acompañante durante 30 segundos.",
+        "Brindis de mirada: Toma un buen sorbo de tu bebida sosteniendo la mirada fija en los ojos de tu acompañante.",
+        "Nota secreta: Escríbele por WhatsApp o en una servilleta algo que te dé curiosidad o ganas de intentar con él/ella hoy.",
+        "Contacto cómplice: Apoya tu mano suavemente sobre la rodilla o pierna de tu acompañante debajo de la mesa durante el siguiente turno."
       ],
       4: [
-        "Foto íntima en el baño: Debes ir al baño del lugar en este instante, tomarte una foto en el espejo mostrando tu ropa interior y enviársela de inmediato por WhatsApp a tu acompañante.",
-        "Foto íntima en el baño: Debes ir al baño del lugar en este instante, tomarte una foto en el espejo mostrando tu ropa interior y enviársela de inmediato por WhatsApp a tu acompañante.",
-        "Beso clandestino en el cuello: Acércate disimuladamente y dale un beso lento y profundo en el cuello a tu acompañante sin que nadie en las otras mesas lo note.",
-        "Mano a la nalga: Pasa tu mano con firmeza por debajo de la mesa o fingiendo acomodarte y apriétale la nalga a tu acompañante durante 5 segundos.",
-        "Desabotonar pantalón: Desabotónale con una sola mano el primer botón del pantalón a tu acompañante y déjalo desabotonado.",
-        "Beso apasionado (30 segundos): Toma el rostro de tu acompañante y dale un beso apasionado con lengua durante 30 segundos continuos.",
+        "Secreto en el espejo: Ve un momento al baño, tómate una foto coqueta en el espejo mostrando un detalle discreto de tu prenda interior y envíasela por WhatsApp.",
+        "Secreto en el espejo: Ve un momento al baño, tómate una foto coqueta en el espejo mostrando un detalle discreto de tu prenda interior y envíasela por WhatsApp.",
+        "Beso en el cuello: Acércate con disimulo y dale un beso suave y lento en el cuello sin que las demás mesas lo noten.",
+        "Toque travieso: Con total disimulo (al acomodarte o bajo la mesa), dale una caricia o apretón juguetón en la cintura o cadera por 5 segundos.",
+        "Permiso concedido: Con una sola mano y mirándose a los ojos, desabotónale un botón de la camisa o el primer botón del pantalón bajo la mesa.",
+        "Beso cómplice (20 segundos): Toma suavemente su rostro con tus manos y dense un beso lento y sin prisa.",
         "ALERTA_PRIVADA"
       ]
     };
@@ -1129,13 +1149,13 @@
       spinsCount: 0,
       daresCompleted: 0,
       phaseDaresCount: { 1: 0, 2: 0, 3: 0, 4: 0 },
-      daresPerPhase: { 1: 2, 2: 2, 3: 2, 4: 1 },
-      totalDaresToExit: 7,
+      daresPerPhase: { 1: 3, 2: 3, 3: 2, 4: 2 },
+      totalDaresToExit: 10,
       currentPhase: 1,
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v6')) || DEFAULT_DARES,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v7')) || DEFAULT_DARES,
       usedQuestions: new Set(),
       usedDares: new Set(),
       voteP1: null,
@@ -1145,14 +1165,14 @@
     // Calculate progression pace based on duration
     function updateProgressionPace() {
       if (state.hours === 1) {
-        state.daresPerPhase = { 1: 1, 2: 1, 3: 1, 4: 1 };
-        state.totalDaresToExit = 4;
-      } else if (state.hours === 2) {
         state.daresPerPhase = { 1: 2, 2: 2, 3: 1, 4: 1 };
         state.totalDaresToExit = 6;
+      } else if (state.hours === 2) {
+        state.daresPerPhase = { 1: 3, 2: 2, 3: 2, 4: 1 };
+        state.totalDaresToExit = 8;
       } else {
-        state.daresPerPhase = { 1: 2, 2: 2, 3: 2, 4: 1 };
-        state.totalDaresToExit = 7;
+        state.daresPerPhase = { 1: 3, 2: 3, 3: 2, 4: 2 };
+        state.totalDaresToExit = 10;
       }
       updateTrackerUI();
     }
@@ -1164,10 +1184,10 @@
       const counter = document.getElementById('rounds-counter');
 
       const names = {
-        1: { name: 'Fase 1: Hielo', emoji: '🟢', color: '#00e676' },
-        2: { name: 'Fase 2: Cercanía', emoji: '🟡', color: '#ffb84d' },
-        3: { name: 'Fase 3: Tensión', emoji: '🟣', color: '#9933ff' },
-        4: { name: 'Fase 4: Jaque Mate', emoji: '🔴', color: '#ff1744' }
+        1: { name: 'Nivel 1: Rompehielo', emoji: '🌱', color: '#34d399' },
+        2: { name: 'Nivel 2: Confianza', emoji: '✨', color: '#fbbf24' },
+        3: { name: 'Nivel 3: Química', emoji: '🥂', color: '#818cf8' },
+        4: { name: 'Nivel 4: Cómplices', emoji: '🌙', color: '#ff7e67' }
       };
 
       const cur = names[state.currentPhase] || names[1];
@@ -1178,7 +1198,7 @@
 
       const pct = Math.min(100, Math.round((state.daresCompleted / state.totalDaresToExit) * 100));
       fill.style.width = Math.max(10, pct) + '%';
-      counter.innerText = `Reto ${state.daresCompleted}/${state.totalDaresToExit} (F${state.currentPhase}) • Giro ${state.spinsCount}`;
+      counter.innerText = `Retos ${state.daresCompleted}/${state.totalDaresToExit} • Giro ${state.spinsCount}`;
     }
 
     /* =========================================================
@@ -1189,14 +1209,14 @@
 
     function getSlices() {
       return [
-        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff3366', textColor: '#ffffff' },
-        { label: '⚡ Pregunta Rápida', type: 'question', color: '#9933ff', textColor: '#ffffff' },
-        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#e6005c', textColor: '#ffffff' },
-        { label: '🚩 Mi Red Flag', type: 'flag', color: '#ffb84d', textColor: '#1b1424' },
-        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff3366', textColor: '#ffffff' },
-        { label: '⚡ Pregunta Rápida', type: 'question', color: '#9933ff', textColor: '#ffffff' },
-        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#e6005c', textColor: '#ffffff' },
-        { label: '🚩 Mi Red Flag', type: 'flag', color: '#ffb84d', textColor: '#1b1424' }
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff7e67', textColor: '#ffffff' },
+        { label: '💬 Pregunta Casual', type: 'question', color: '#6366f1', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#ec4899', textColor: '#ffffff' },
+        { label: '🙈 Mi Confesión', type: 'flag', color: '#f59e0b', textColor: '#141726' },
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff7e67', textColor: '#ffffff' },
+        { label: '💬 Pregunta Casual', type: 'question', color: '#6366f1', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#ec4899', textColor: '#ffffff' },
+        { label: '🙈 Mi Confesión', type: 'flag', color: '#f59e0b', textColor: '#141726' }
       ];
     }
 
@@ -1321,19 +1341,19 @@
       if (slice.type === 'p1') {
         tag.innerText = `✨ Turno de ${state.p1}`;
         title.innerText = `Cumplido para ${state.p2}`;
-        desc.innerText = `Tienes 30s para observar o investigar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 30s para observar o indagar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Vale mirar detalles!`;
       } else if (slice.type === 'p2') {
         tag.innerText = `✨ Turno de ${state.p2}`;
         title.innerText = `Cumplido para ${state.p1}`;
-        desc.innerText = `Tienes 30s para observar o investigar y decirle a ${state.p1} algo sincero que te guste. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 30s para observar o indagar y decirle a ${state.p1} algo sincero que te guste. ¡Vale mirar detalles!`;
       } else if (slice.type === 'question') {
-        tag.innerText = `⚡ Pregunta Rápida (Fase ${state.currentPhase})`;
-        title.innerText = `Responde con la verdad`;
+        tag.innerText = `💬 Pregunta Casual (Nivel ${state.currentPhase})`;
+        title.innerText = `Responde con sinceridad`;
         desc.innerText = getRandomQuestion();
       } else if (slice.type === 'flag') {
-        tag.innerText = `🚩 Mi Red Flag`;
-        title.innerText = `Confesión sin filtro`;
-        desc.innerText = `Tienes 30s para confesar un defecto real tuyo o una manía que a los demás suele desesperarles.`;
+        tag.innerText = `🙈 Mi Confesión`;
+        title.innerText = `Sinceridad ante todo`;
+        desc.innerText = `Tienes 30s para contar una manía tuya graciosa o un defecto real que tus amigos siempre te critican.`;
       }
 
       startCountdown('timer-circle-progress', 'timer-number', 30, () => {
@@ -1400,13 +1420,13 @@
       const dareText = document.getElementById('dare-text');
 
       const phaseNames = {
-        1: 'Fase 1: Hielo',
-        2: 'Fase 2: Cercanía',
-        3: 'Fase 3: Tensión',
-        4: 'Fase 4: Jaque Mate'
+        1: '🌱 Nivel 1: Rompehielo',
+        2: '✨ Nivel 2: Confianza',
+        3: '🥂 Nivel 3: Química',
+        4: '🌙 Nivel 4: Cómplices'
       };
 
-      phaseTag.innerText = phaseNames[state.currentPhase] || 'Fase 1';
+      phaseTag.innerText = phaseNames[state.currentPhase] || 'Nivel 1';
       dareText.innerText = getRandomDare();
       sound.playBuzzer();
       sound.vibrate([40, 30, 40]);
@@ -1420,7 +1440,7 @@
 
       if (chosen === 'ALERTA_PRIVADA') {
         showPrivateAlert();
-        return 'Nivel Privado Desbloqueado.';
+        return 'Nivel Cómplices Desbloqueado.';
       }
 
       state.usedDares.add(chosen);
@@ -1455,10 +1475,10 @@
           div.className = 'dare-item';
           div.innerHTML = `
             <div>
-              <span class="badge badge-fase${phase}">F${phase}</span>
+              <span class="badge badge-fase${phase}">N${phase}</span>
               <span>${text}</span>
             </div>
-            <button style="background:none; border:none; color:#ff1744; font-size:16px; cursor:pointer;" onclick="deleteCustomDare(${phase}, ${idx})">✕</button>
+            <button style="background:none; border:none; color:#fb7185; font-size:16px; cursor:pointer;" onclick="deleteCustomDare(${phase}, ${idx})">✕</button>
           `;
           container.appendChild(div);
         });
@@ -1468,7 +1488,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v6', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v7', JSON.stringify(state.customDares));
       renderCustomDaresList();
     };
 
@@ -1631,7 +1651,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v6', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v7', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       sound.playSuccess();
@@ -1639,9 +1659,9 @@
 
     // Reset dares
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
-      if (confirm('¿Restablecer todas las penitencias a las originales?')) {
+      if (confirm('¿Restablecer todos los retos a los originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v6');
+        localStorage.removeItem('ruleta_dares_v7');
         renderCustomDaresList();
         sound.playTick();
       }
