@@ -1,0 +1,17 @@
+{
+  "name": "Ruleta sin Filtro",
+  "short_name": "Ruleta",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a080e",
+  "theme_color": "#ff3366",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

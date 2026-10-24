@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Ruleta sin Filtro</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff3366">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <style>
+    :root {
+      --bg: #0b0910;
+      --card-bg: rgba(23, 18, 33, 0.85);
+      --card-border: rgba(255, 51, 102, 0.25);
+      --primary: #ff3366;
+      --primary-glow: rgba(255, 51, 102, 0.5);
+      --secondary: #9933ff;
+      --secondary-glow: rgba(153, 51, 255, 0.5);
+      --accent: #ffb84d;
+      --success: #00e676;
+      --danger: #ff1744;
+      --text: #f5f3f7;
+      --text-muted: #9e97aa;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    body {
+      background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(153, 51, 255, 0.18) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(255, 51, 102, 0.18) 0%, transparent 40%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Header */
+    header {
+      padding: env(safe-area-inset-top, 14px) 18px 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(11, 9, 16, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--primary-glow);
+      font-size: 16px;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #fff, #ffd6e0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: rgba(255, 51, 102, 0.2);
+    }
+
+    /* Tension Tracker Bar */
+    .tracker-bar {
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(20, 15, 28, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .phase-badge {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(255, 51, 102, 0.15);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .phase-meter {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phase-fill {
+      height: 100%;
+      width: 25%;
+      background: linear-gradient(90deg, var(--secondary), var(--primary), var(--accent));
+      border-radius: 4px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .rounds-counter {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 14px 16px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 440px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Setup Screen */
+    .setup-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      width: 100%;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+    }
+
+    .setup-title {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+      background: linear-gradient(90deg, #fff, #ff8da1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .setup-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .text-input {
+      width: 100%;
+      background: rgba(10, 8, 14, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .text-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .duration-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .duration-btn {
+      background: rgba(10, 8, 14, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.2s ease;
+    }
+
+    .duration-btn.selected {
+      background: linear-gradient(135deg, rgba(255, 51, 102, 0.25), rgba(153, 51, 255, 0.25));
+      border-color: var(--primary);
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .duration-btn span.emoji {
+      font-size: 18px;
+    }
+
+    .duration-btn span.time {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .duration-btn span.tag {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #e6005c);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 20px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 25px var(--primary-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    /* Wheel Screen */
+    .wheel-container {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      margin: 10px auto 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 360px) {
+      .wheel-container {
+        width: 290px;
+        height: 290px;
+      }
+    }
+
+    #wheel-canvas {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 20px rgba(153, 51, 255, 0.35));
+      border-radius: 50%;
+    }
+
+    .wheel-needle {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 36px;
+      z-index: 10;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.8));
+    }
+
+    .wheel-center-btn {
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1b1424, #0b0811);
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(255, 51, 102, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s ease;
+    }
+
+    .wheel-center-btn:active {
+      transform: scale(0.92);
+      border-color: var(--accent);
+    }
+
+    .turn-hint {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .turn-hint b {
+      color: var(--text);
+    }
+
+    /* Result / Card Screen */
+    .action-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 26px 20px;
+      width: 100%;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: rgba(255, 51, 102, 0.15);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 16px;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+
+    /* Circular Timer */
+    .timer-circle {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-circle svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .timer-circle circle.bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 6;
+    }
+
+    .timer-circle circle.progress {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 251.2;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.1s linear, stroke 0.3s ease;
+      filter: drop-shadow(0 0 6px var(--primary-glow));
+    }
+
+    .timer-number {
+      position: absolute;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    /* Decision Grid */
+    .btn-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #00c853, #009624);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 200, 83, 0.4);
+    }
+
+    .btn-red {
+      background: linear-gradient(135deg, #ff1744, #d50000);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 23, 68, 0.4);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Private Level Alert Screen */
+    .alert-card {
+      background: linear-gradient(145deg, #1f0710, #120309);
+      border: 2px solid #ff1744;
+      border-radius: var(--radius);
+      padding: 30px 22px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 23, 68, 0.4);
+      animation: pulseAlert 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { box-shadow: 0 0 25px rgba(255, 23, 68, 0.4); border-color: #ff1744; }
+      50% { box-shadow: 0 0 50px rgba(255, 23, 68, 0.7); border-color: #ff5252; }
+    }
+
+    .alert-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .alert-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ff3366;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .alert-desc {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #fce4ec;
+      margin-bottom: 24px;
+    }
+
+    /* Modal / Drawer */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      background: #14101d;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px 20px env(safe-area-inset-bottom, 24px) 20px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .dare-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+      max-height: 350px;
+      overflow-y: auto;
+    }
+
+    .dare-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .dare-item span.badge {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+
+    .badge-fase1 { background: rgba(0, 230, 118, 0.2); color: var(--success); }
+    .badge-fase2 { background: rgba(255, 184, 77, 0.2); color: var(--accent); }
+    .badge-fase3 { background: rgba(153, 51, 255, 0.2); color: #d199ff; }
+    .badge-fase4 { background: rgba(255, 23, 68, 0.2); color: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">🔥</div>
+      <div class="brand-title">Ruleta sin Filtro</div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-toggle-sound" title="Sonido">🔊</button>
+      <button class="icon-btn" id="btn-open-settings" title="Configuración">⚙️</button>
+    </div>
+  </header>
+
+  <!-- Tension Progression Bar -->
+  <div class="tracker-bar" id="tracker-bar" style="display: none;">
+    <div class="phase-badge" id="phase-badge">
+      <span>🟢</span> <span id="phase-text">Fase 1: Hielo</span>
+    </div>
+    <div class="phase-meter">
+      <div class="phase-fill" id="phase-fill"></div>
+    </div>
+    <div class="rounds-counter" id="rounds-counter">Giro 0</div>
+  </div>
+
+  <main>
+
+    <!-- SCREEN 0: SETUP / WELCOME -->
+    <div class="screen active" id="screen-setup">
+      <div class="setup-card">
+        <h1 class="setup-title">Juego de Citas</h1>
+        <p class="setup-subtitle">Una ruleta equitativa, cumplidos sinceros y retos que suben de temperatura sin que se den cuenta.</p>
+
+        <div class="input-group">
+          <label class="input-label">Jugador 1 (Tu nombre)</label>
+          <input type="text" id="input-p1" class="text-input" value="Camilo" placeholder="Ej. Camilo">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Jugador 2 (Su nombre)</label>
+          <input type="text" id="input-p2" class="text-input" value="Nani" placeholder="Ej. Nani">
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">Tiempo disponible / Ritmo de la cita</label>
+          <div class="duration-selector">
+            <div class="duration-btn" data-hours="1">
+              <span class="emoji">⚡</span>
+              <span class="time">1 Hora</span>
+              <span class="tag">Express</span>
+            </div>
+            <div class="duration-btn selected" data-hours="2">
+              <span class="emoji">🔥</span>
+              <span class="time">2 Horas</span>
+              <span class="tag">Estándar</span>
+            </div>
+            <div class="duration-btn" data-hours="3">
+              <span class="emoji">⏳</span>
+              <span class="time">3 Horas</span>
+              <span class="tag">Gradual</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btn-start-game">
+          <span>COMENZAR EL JUEGO</span> ➔
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 1: WHEEL -->
+    <div class="screen" id="screen-wheel">
+      <div class="turn-hint" id="wheel-turn-hint">Giren la ruleta para ver a quién le toca</div>
+
+      <div class="wheel-container">
+        <!-- Needle Pointer -->
+        <svg class="wheel-needle" viewBox="0 0 28 36">
+          <path d="M14 36 L0 10 C0 4.5 6.3 0 14 0 C21.7 0 28 4.5 28 10 Z" fill="#ffb84d" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.5))"/>
+          <circle cx="14" cy="11" r="5" fill="#1b1424"/>
+        </svg>
+
+        <!-- Canvas Wheel -->
+        <canvas id="wheel-canvas" width="640" height="640"></canvas>
+
+        <!-- Center Spin Button -->
+        <div class="wheel-center-btn" id="btn-spin">
+          <span>GIRAR</span>
+        </div>
+      </div>
+
+      <div style="width: 100%; display: flex; gap: 8px;">
+        <button class="btn-primary" id="btn-spin-large">
+          🎲 GIRAR RULETA
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: TIMER / QUESTION -->
+    <div class="screen" id="screen-timer">
+      <div class="action-card">
+        <div class="card-tag" id="timer-tag">Turno</div>
+        <h2 class="card-title" id="timer-title">Mira a los ojos</h2>
+        
+        <div class="card-desc" id="timer-desc">
+          Dile un cumplido sincero a tu acompañante. ¡Prohibido repetir!
+        </div>
+
+        <!-- 7s Circular Timer -->
+        <div class="timer-circle">
+          <svg viewBox="0 0 100 100">
+            <circle class="bg" cx="50" cy="50" r="40"/>
+            <circle class="progress" id="timer-circle-progress" cx="50" cy="50" r="40"/>
+          </svg>
+          <div class="timer-number" id="timer-number">7</div>
+        </div>
+
+        <div class="btn-grid-2">
+          <button class="btn-green" id="btn-timer-pass">
+            ✅ Pasó la prueba
+          </button>
+          <button class="btn-red" id="btn-timer-fail">
+            ❌ No te creo / Tiempo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: DEFENSE (10s) -->
+    <div class="screen" id="screen-defense">
+      <div class="action-card">
+        <div class="card-tag" style="background: rgba(255, 184, 77, 0.2); color: var(--accent); border-color: var(--accent);">¡Objeción!</div>
+        <h2 class="card-title">Tienes 10 Segundos</h2>
+        <div class="card-desc">
+          Míralo/a fijamente a los ojos y convéncelo/a de que estás diciendo la verdad absoluta.
+        </div>
+
+        <!-- 10s Timer -->
+        <div class="timer-circle">
+          <svg viewBox="0 0 100 100">
+            <circle class="bg" cx="50" cy="50" r="40"/>
+            <circle class="progress" id="defense-circle-progress" cx="50" cy="50" r="40" style="stroke: var(--accent);"/>
+          </svg>
+          <div class="timer-number" id="defense-number">10</div>
+        </div>
+
+        <div class="btn-grid-2">
+          <button class="btn-green" id="btn-defense-pass">
+            😎 Me convenció
+          </button>
+          <button class="btn-red" id="btn-defense-fail">
+            🔥 Paga Penitencia
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: DARE / PENITENCIA -->
+    <div class="screen" id="screen-dare">
+      <div class="action-card">
+        <div class="card-tag" id="dare-phase-tag">Fase 1: Inocente</div>
+        <h2 class="card-title" id="dare-title">Penitencia Obligatoria</h2>
+        <div class="card-desc" id="dare-text">
+          Toma la mano de tu acompañante durante 1 minuto completo mientras siguen jugando.
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+          <button class="btn-outline" id="btn-swap-dare">
+            🔄 Cambiar por otro reto del mismo nivel
+          </button>
+          <button class="btn-primary" id="btn-dare-done">
+            ✅ Reto Cumplido ➔ Volver
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: PRIVATE LEVEL UNLOCKED ALERT -->
+    <div class="screen" id="screen-private-alert">
+      <div class="alert-card">
+        <div class="alert-icon">⚠️</div>
+        <h2 class="alert-title">Nivel Privado Desbloqueado</h2>
+        <p class="alert-desc">
+          Las siguientes penitencias y preguntas <b>no son aptas para lugares públicos</b>. Pidan la cuenta y muévanse a un lugar privado para continuar el juego.
+        </p>
+        <button class="btn-primary" id="btn-alert-ack" style="background: linear-gradient(135deg, #ff1744, #b71c1c);">
+          🤫 Entendido, pedir la cuenta
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SETTINGS & CUSTOM PACKAGES MODAL -->
+  <div class="modal-backdrop" id="modal-settings">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ Ajustes y Paquetes</div>
+        <button class="close-btn" id="btn-close-settings">✕</button>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Jugador 1</label>
+        <input type="text" id="modal-p1" class="text-input">
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Jugador 2</label>
+        <input type="text" id="modal-p2" class="text-input">
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+
+      <div class="input-label" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>📦 Añadir Penitencia Personalizada</span>
+      </div>
+
+      <div class="input-group" style="margin-top: 8px;">
+        <input type="text" id="input-new-dare" class="text-input" placeholder="Escribe un reto nuevo...">
+      </div>
+
+      <div class="input-group" style="display: flex; gap: 8px;">
+        <select id="select-new-dare-phase" class="text-input" style="flex: 1;">
+          <option value="1">Fase 1: Inocente</option>
+          <option value="2">Fase 2: Cercanía</option>
+          <option value="3">Fase 3: Tensión/Coqueteo</option>
+          <option value="4">Fase 4: Picante/Privado</option>
+        </select>
+        <button class="btn-primary" id="btn-add-custom-dare" style="width: auto; padding: 10px 18px;">
+          ➕ Añadir
+        </button>
+      </div>
+
+      <div class="input-label" style="margin-top: 16px;">Lista de Penitencias Actuales (<span id="count-dares">0</span>)</div>
+      <div class="dare-list" id="custom-dares-container"></div>
+
+      <button class="btn-outline" id="btn-reset-dares" style="width: 100%; margin-top: 16px; font-size: 12px; padding: 8px;">
+        Restablecer al paquete original de fábrica
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       AUDIO SYNTHESIZER (Web Audio API - Zero External Files)
+       ========================================================= */
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playTick() {
+        if (!this.enabled) return;
+        this.init();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.04);
+      }
+
+      playSuccess() {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.06);
+          gain.gain.setValueAtTime(0.12, now + i * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + i * 0.06);
+          osc.stop(now + i * 0.06 + 0.2);
+        });
+      }
+
+      playBuzzer() {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.setValueAtTime(140, now + 0.1);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      }
+
+      playGong() {
+        if (!this.enabled) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        [220, 277.18, 329.63].forEach(freq => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 1.8);
+        });
+      }
+
+      vibrate(ms) {
+        if (navigator.vibrate) {
+          try { navigator.vibrate(ms); } catch (e) {}
+        }
+      }
+    }
+
+    const sound = new SoundFX();
+
+    /* =========================================================
+       DEFAULT DATABASE (Curated Questions & Dares)
+       ========================================================= */
+    const DEFAULT_QUESTIONS = {
+      1: [
+        "¿Cuál fue el primer detalle que notaste de mí cuando llegué?",
+        "Si tuvieras que describirme con una sola palabra hoy, ¿cuál sería?",
+        "¿Qué música te relaja cuando estás en un día pesado?",
+        "¿Eres más de planes tranquilos de noche o de aventura de día?",
+        "¿Qué comida te hace romper cualquier dieta sin pensarlo?"
+      ],
+      2: [
+        "¿Qué gesto o mirada de alguien te desarma de inmediato?",
+        "¿Te consideras una persona fácil de intimidar o tienes buen autocontrol?",
+        "¿Cuál ha sido la situación más loca o espontánea que has vivido en una cita?",
+        "¿Qué perfume o aroma te parece magnético en una persona?",
+        "¿Eres de las que toma la iniciativa o prefieres que te lleven el paso?"
+      ],
+      3: [
+        "¿Qué prenda consideras que es tu arma secreta para sentirte atractiva/o?",
+        "¿Hace cuánto tiempo no te dabas una escapada como la de hoy?",
+        "¿Qué te parece más seductor: la mirada o la forma en que te hablan al oído?",
+        "¿Qué es lo primero que miras en alguien cuando hay tensión en el aire?",
+        "Si pudieras pedir un deseo secreto ahora mismo, ¿cuál sería?"
+      ],
+      4: [
+        "¿Qué es lo más atrevido que has hecho bajo absoluta reserva?",
+        "¿Qué te hace perder los frenos por completo cuando estás a solas?",
+        "¿Qué parte de tu cuerpo es tu punto débil absoluto?",
+        "¿Prefieres los besos lentos y suaves o apasionados y firmes?",
+        "¿Qué estás pensando en este preciso instante mientras me miras?"
+      ]
+    };
+
+    const DEFAULT_DARES = {
+      1: [
+        "Comparar el tamaño de las manos palma contra palma durante 15 segundos.",
+        "Sostener la mirada a los ojos a 10 cm de distancia sin reírse por 10 segundos.",
+        "Chocar las manos cinco veces seguidas mirándose fijamente.",
+        "Dejar que tu acompañante elija tu próximo sorbo de bebida.",
+        "Contar un secreto gracioso o vergonzoso de tu infancia."
+      ],
+      2: [
+        "Tomarse de la mano por 1 minuto completo mientras siguen jugando.",
+        "Dar un abrazo cálido de 20 segundos como si fueran novios que no se ven hace semanas.",
+        "Acercarte al oído del otro y susurrarle qué te gustó de él/ella hoy.",
+        "Hacerle caricias suaves en la mano o en el antebrazo durante el siguiente turno.",
+        "Darle un beso lento en la mejilla, justo al lado de la comisura de los labios."
+      ],
+      3: [
+        "Dar un beso suave y discreto en el cuello sin que nadie del lugar se dé cuenta.",
+        "Apoyar tu mano sobre la pierna del otro debajo de la mesa durante los próximos 2 turnos.",
+        "Hacerle cariñito en la nuca al otro por 30 segundos continuos.",
+        "Mostrar en tu celular (por 5 segundos) la foto tuya donde te sientas más sexy.",
+        "Confesar al oído qué parte de tu cuerpo te encanta que te consientan."
+      ],
+      4: [
+        "Mostrar por 2 segundos un detalle oculto de tu ropa o un lunar escondido discretamente.",
+        "Darle un roce suave de labios (o un beso corto de 3 segundos) con ojos cerrados.",
+        "Dejar que el otro te sostenga la cintura mientras le susurras algo al oído.",
+        "Acariciar los labios del otro con tu dedo pulgar mirándolo a los ojos.",
+        "ALERTA_PRIVADA"
+      ]
+    };
+
+    /* =========================================================
+       GAME STATE MANAGEMENT
+       ========================================================= */
+    const state = {
+      p1: 'Camilo',
+      p2: 'Nani',
+      hours: 2,
+      spinsCount: 0,
+      currentPhase: 1,
+      targetSpinsForPrivate: 14,
+      isSpinning: false,
+      currentAngle: 0,
+      activeTimer: null,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares')) || DEFAULT_DARES,
+      usedQuestions: new Set(),
+      usedDares: new Set()
+    };
+
+    // Calculate progression pace based on duration
+    function updateProgressionPace() {
+      if (state.hours === 1) {
+        state.targetSpinsForPrivate = 10; // Rapid
+      } else if (state.hours === 2) {
+        state.targetSpinsForPrivate = 14; // Standard
+      } else {
+        state.targetSpinsForPrivate = 18; // Gradual
+      }
+    }
+
+    function calculatePhase() {
+      const p = Math.min(4, Math.floor((state.spinsCount / state.targetSpinsForPrivate) * 4) + 1);
+      state.currentPhase = p;
+      updateTrackerUI();
+      return p;
+    }
+
+    function updateTrackerUI() {
+      const badge = document.getElementById('phase-badge');
+      const text = document.getElementById('phase-text');
+      const fill = document.getElementById('phase-fill');
+      const counter = document.getElementById('rounds-counter');
+
+      const names = {
+        1: { name: 'Fase 1: Hielo', emoji: '🟢', color: '#00e676' },
+        2: { name: 'Fase 2: Cercanía', emoji: '🟡', color: '#ffb84d' },
+        3: { name: 'Fase 3: Tensión', emoji: '🟣', color: '#9933ff' },
+        4: { name: 'Fase 4: Picante', emoji: '🔴', color: '#ff1744' }
+      };
+
+      const cur = names[state.currentPhase] || names[1];
+      badge.innerHTML = `<span>${cur.emoji}</span> <span>${cur.name}</span>`;
+      badge.style.borderColor = cur.color;
+      badge.style.color = cur.color;
+      badge.style.background = cur.color + '22';
+
+      const pct = Math.min(100, Math.round((state.spinsCount / state.targetSpinsForPrivate) * 100));
+      fill.style.width = Math.max(10, pct) + '%';
+      counter.innerText = `Giro ${state.spinsCount} / ${state.targetSpinsForPrivate}`;
+    }
+
+    /* =========================================================
+       ROULETTE WHEEL (Canvas 2D - 8 Equitable Slices)
+       ========================================================= */
+    const canvas = document.getElementById('wheel-canvas');
+    const ctx = canvas.getContext('2d');
+
+    function getSlices() {
+      return [
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff3366', textColor: '#ffffff' },
+        { label: '⚡ Pregunta Rápida', type: 'question', color: '#9933ff', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#e6005c', textColor: '#ffffff' },
+        { label: '🚩 Mi Red Flag', type: 'flag', color: '#ffb84d', textColor: '#1b1424' },
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#ff3366', textColor: '#ffffff' },
+        { label: '⚡ Pregunta Rápida', type: 'question', color: '#9933ff', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#e6005c', textColor: '#ffffff' },
+        { label: '🚩 Mi Red Flag', type: 'flag', color: '#ffb84d', textColor: '#1b1424' }
+      ];
+    }
+
+    function drawWheel(angle) {
+      const slices = getSlices();
+      const numSlices = slices.length;
+      const arc = (2 * Math.PI) / numSlices;
+      const radius = canvas.width / 2;
+      const centerX = radius;
+      const centerY = radius;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < numSlices; i++) {
+        const sliceAngle = angle + i * arc;
+        ctx.beginPath();
+        ctx.fillStyle = slices[i].color;
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius - 10, sliceAngle, sliceAngle + arc);
+        ctx.closePath();
+        ctx.fill();
+
+        // Stroke
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.stroke();
+
+        // Slice Text
+        ctx.save();
+        ctx.fillStyle = slices[i].textColor;
+        ctx.font = 'bold 24px -apple-system, sans-serif';
+        ctx.translate(centerX, centerY);
+        ctx.rotate(sliceAngle + arc / 2);
+        ctx.textAlign = 'right';
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(slices[i].label, radius - 40, 8);
+        ctx.restore();
+      }
+
+      // Outer ring
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius - 10, 0, 2 * Math.PI);
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+    }
+
+    function spinWheel() {
+      if (state.isSpinning) return;
+      state.isSpinning = true;
+      sound.init();
+
+      const slices = getSlices();
+      const numSlices = slices.length;
+      const arc = (2 * Math.PI) / numSlices;
+
+      // Random slice target
+      const targetIndex = Math.floor(Math.random() * numSlices);
+      // Needle is at top (-PI/2)
+      const targetAngleOnWheel = (numSlices - targetIndex - 0.5) * arc - Math.PI / 2;
+      const extraSpins = (5 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
+      const finalAngle = extraSpins + targetAngleOnWheel;
+
+      const duration = 3200; // 3.2 seconds
+      const startTime = performance.now();
+      const startAngle = state.currentAngle % (2 * Math.PI);
+      let lastTickAngle = startAngle;
+
+      function animate(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        // Ease Out Cubic
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = startAngle + (finalAngle - startAngle) * ease;
+        state.currentAngle = current;
+        drawWheel(current);
+
+        // Sound tick check
+        if (Math.abs(current - lastTickAngle) >= arc / 2) {
+          sound.playTick();
+          sound.vibrate(15);
+          lastTickAngle = current;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          state.isSpinning = false;
+          sound.vibrate(40);
+          onSpinCompleted(slices[targetIndex]);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function onSpinCompleted(slice) {
+      state.spinsCount++;
+      calculatePhase();
+
+      // Check if Private Alert should trigger
+      if (state.spinsCount >= state.targetSpinsForPrivate) {
+        showPrivateAlert();
+        return;
+      }
+
+      setTimeout(() => {
+        setupTimerScreen(slice);
+      }, 500);
+    }
+
+    /* =========================================================
+       SCREEN NAVIGATION & FLOW
+       ========================================================= */
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+    }
+
+    function setupTimerScreen(slice) {
+      showScreen('screen-timer');
+      const tag = document.getElementById('timer-tag');
+      const title = document.getElementById('timer-title');
+      const desc = document.getElementById('timer-desc');
+
+      if (slice.type === 'p1') {
+        tag.innerText = `✨ Turno de ${state.p1}`;
+        title.innerText = `Cumplido para ${state.p2}`;
+        desc.innerText = `Mira a ${state.p2} a los ojos y dile algo sincero que te guste mucho de ella. ¡Prohibido repetir!`;
+      } else if (slice.type === 'p2') {
+        tag.innerText = `✨ Turno de ${state.p2}`;
+        title.innerText = `Cumplido para ${state.p1}`;
+        desc.innerText = `Mira a ${state.p1} a los ojos y dile algo sincero que te guste de él. ¡Prohibido repetir!`;
+      } else if (slice.type === 'question') {
+        tag.innerText = `⚡ Pregunta Rápida (Fase ${state.currentPhase})`;
+        title.innerText = `Responde con la verdad`;
+        desc.innerText = getRandomQuestion();
+      } else if (slice.type === 'flag') {
+        tag.innerText = `🚩 Mi Red Flag`;
+        title.innerText = `Confesión sin filtro`;
+        desc.innerText = `Confiesa en 7 segundos un defecto real tuyo o una manía que a los demás suele desesperarles.`;
+      }
+
+      startCountdown('timer-circle-progress', 'timer-number', 7, () => {
+        sound.playBuzzer();
+        sound.vibrate(80);
+      });
+    }
+
+    function getRandomQuestion() {
+      const list = DEFAULT_QUESTIONS[state.currentPhase] || DEFAULT_QUESTIONS[1];
+      const available = list.filter(q => !state.usedQuestions.has(q));
+      const pool = available.length > 0 ? available : list;
+      const selected = pool[Math.floor(Math.random() * pool.length)];
+      state.usedQuestions.add(selected);
+      return `"${selected}"`;
+    }
+
+    function startCountdown(circleId, numberId, seconds, onFinish) {
+      if (state.activeTimer) clearInterval(state.activeTimer);
+
+      const circle = document.getElementById(circleId);
+      const number = document.getElementById(numberId);
+      const totalOffset = 251.2;
+
+      let remaining = seconds;
+      number.innerText = remaining;
+      circle.style.strokeDashoffset = '0';
+
+      const interval = 1000;
+      const start = Date.now();
+
+      state.activeTimer = setInterval(() => {
+        const passed = Math.floor((Date.now() - start) / 1000);
+        remaining = Math.max(0, seconds - passed);
+        number.innerText = remaining;
+
+        const progress = (seconds - remaining) / seconds;
+        circle.style.strokeDashoffset = progress * totalOffset;
+
+        if (remaining > 0 && remaining <= 3) {
+          sound.playTick();
+          sound.vibrate(20);
+        }
+
+        if (remaining <= 0) {
+          clearInterval(state.activeTimer);
+          state.activeTimer = null;
+          if (onFinish) onFinish();
+        }
+      }, 100);
+    }
+
+    function setupDefenseScreen() {
+      showScreen('screen-defense');
+      startCountdown('defense-circle-progress', 'defense-number', 10, () => {
+        sound.playBuzzer();
+        sound.vibrate(80);
+      });
+    }
+
+    function setupDareScreen() {
+      showScreen('screen-dare');
+      const phaseTag = document.getElementById('dare-phase-tag');
+      const dareText = document.getElementById('dare-text');
+
+      const phaseNames = {
+        1: 'Fase 1: Inocente',
+        2: 'Fase 2: Cercanía',
+        3: 'Fase 3: Tensión',
+        4: 'Fase 4: Picante'
+      };
+
+      phaseTag.innerText = phaseNames[state.currentPhase] || 'Fase 1';
+      dareText.innerText = getRandomDare();
+      sound.playBuzzer();
+      sound.vibrate([40, 30, 40]);
+    }
+
+    function getRandomDare() {
+      const list = state.customDares[state.currentPhase] || state.customDares[1];
+      const available = list.filter(d => !state.usedDares.has(d));
+      const pool = available.length > 0 ? available : list;
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+
+      if (chosen === 'ALERTA_PRIVADA') {
+        showPrivateAlert();
+        return 'Nivel Privado Desbloqueado.';
+      }
+
+      state.usedDares.add(chosen);
+      return chosen;
+    }
+
+    function showPrivateAlert() {
+      showScreen('screen-private-alert');
+      sound.playGong();
+      sound.vibrate([100, 50, 100, 50, 200]);
+    }
+
+    /* =========================================================
+       CUSTOM DARES MANAGEMENT
+       ========================================================= */
+    function renderCustomDaresList() {
+      const container = document.getElementById('custom-dares-container');
+      const countEl = document.getElementById('count-dares');
+      container.innerHTML = '';
+
+      let total = 0;
+      for (let phase = 1; phase <= 4; phase++) {
+        const items = state.customDares[phase] || [];
+        items.forEach((text, idx) => {
+          if (text === 'ALERTA_PRIVADA') return;
+          total++;
+          const div = document.createElement('div');
+          div.className = 'dare-item';
+          div.innerHTML = `
+            <div>
+              <span class="badge badge-fase${phase}">F${phase}</span>
+              <span>${text}</span>
+            </div>
+            <button style="background:none; border:none; color:#ff1744; font-size:16px; cursor:pointer;" onclick="deleteCustomDare(${phase}, ${idx})">✕</button>
+          `;
+          container.appendChild(div);
+        });
+      }
+      countEl.innerText = total;
+    }
+
+    window.deleteCustomDare = function(phase, idx) {
+      state.customDares[phase].splice(idx, 1);
+      localStorage.setItem('ruleta_dares', JSON.stringify(state.customDares));
+      renderCustomDaresList();
+    };
+
+    /* =========================================================
+       DOM LISTENERS & BUTTONS
+       ========================================================= */
+    document.querySelectorAll('.duration-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.hours = parseInt(btn.dataset.hours, 10);
+        updateProgressionPace();
+      });
+    });
+
+    document.getElementById('btn-start-game').addEventListener('click', () => {
+      sound.init();
+      sound.playSuccess();
+      state.p1 = document.getElementById('input-p1').value.trim() || 'Camilo';
+      state.p2 = document.getElementById('input-p2').value.trim() || 'Nani';
+      document.getElementById('modal-p1').value = state.p1;
+      document.getElementById('modal-p2').value = state.p2;
+
+      document.getElementById('tracker-bar').style.display = 'flex';
+      updateTrackerUI();
+      drawWheel(0);
+      showScreen('screen-wheel');
+    });
+
+    document.getElementById('btn-spin').addEventListener('click', spinWheel);
+    document.getElementById('btn-spin-large').addEventListener('click', spinWheel);
+
+    // Timer screen buttons
+    document.getElementById('btn-timer-pass').addEventListener('click', () => {
+      if (state.activeTimer) clearInterval(state.activeTimer);
+      sound.playSuccess();
+      showScreen('screen-wheel');
+    });
+
+    document.getElementById('btn-timer-fail').addEventListener('click', () => {
+      if (state.activeTimer) clearInterval(state.activeTimer);
+      sound.vibrate(50);
+      setupDefenseScreen();
+    });
+
+    // Defense screen buttons
+    document.getElementById('btn-defense-pass').addEventListener('click', () => {
+      if (state.activeTimer) clearInterval(state.activeTimer);
+      sound.playSuccess();
+      showScreen('screen-wheel');
+    });
+
+    document.getElementById('btn-defense-fail').addEventListener('click', () => {
+      if (state.activeTimer) clearInterval(state.activeTimer);
+      setupDareScreen();
+    });
+
+    // Dare screen buttons
+    document.getElementById('btn-swap-dare').addEventListener('click', () => {
+      document.getElementById('dare-text').innerText = getRandomDare();
+      sound.playTick();
+    });
+
+    document.getElementById('btn-dare-done').addEventListener('click', () => {
+      sound.playSuccess();
+      showScreen('screen-wheel');
+    });
+
+    // Alert Ack
+    document.getElementById('btn-alert-ack').addEventListener('click', () => {
+      showScreen('screen-wheel');
+    });
+
+    // Sound toggle
+    document.getElementById('btn-toggle-sound').addEventListener('click', (e) => {
+      sound.enabled = !sound.enabled;
+      e.target.innerText = sound.enabled ? '🔊' : '🔇';
+    });
+
+    // Settings Modal
+    document.getElementById('btn-open-settings').addEventListener('click', () => {
+      renderCustomDaresList();
+      document.getElementById('modal-settings').classList.add('open');
+    });
+
+    document.getElementById('btn-close-settings').addEventListener('click', () => {
+      state.p1 = document.getElementById('modal-p1').value.trim() || state.p1;
+      state.p2 = document.getElementById('modal-p2').value.trim() || state.p2;
+      document.getElementById('input-p1').value = state.p1;
+      document.getElementById('input-p2').value = state.p2;
+      drawWheel(state.currentAngle);
+      document.getElementById('modal-settings').classList.remove('open');
+    });
+
+    // Add custom dare
+    document.getElementById('btn-add-custom-dare').addEventListener('click', () => {
+      const text = document.getElementById('input-new-dare').value.trim();
+      const phase = parseInt(document.getElementById('select-new-dare-phase').value, 10);
+      if (!text) return;
+
+      if (!state.customDares[phase]) state.customDares[phase] = [];
+      state.customDares[phase].unshift(text);
+      localStorage.setItem('ruleta_dares', JSON.stringify(state.customDares));
+      document.getElementById('input-new-dare').value = '';
+      renderCustomDaresList();
+      sound.playSuccess();
+    });
+
+    // Reset dares
+    document.getElementById('btn-reset-dares').addEventListener('click', () => {
+      if (confirm('¿Restablecer todas las penitencias a las originales?')) {
+        state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
+        localStorage.removeItem('ruleta_dares');
+        renderCustomDaresList();
+        sound.playTick();
+      }
+    });
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    // Initial wheel draw
+    drawWheel(0);
+    updateProgressionPace();
+  </script>
+</body>
+</html>
