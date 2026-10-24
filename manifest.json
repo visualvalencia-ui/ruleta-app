@@ -1,10 +1,10 @@
 {
-  "name": "Conexión Casual",
-  "short_name": "Conexión",
+  "name": "Chispa & Química",
+  "short_name": "Chispa",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#141726",
-  "theme_color": "#ff7e67",
+  "background_color": "#111418",
+  "theme_color": "#FE3C72",
   "orientation": "portrait",
   "icons": [
     {
