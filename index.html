@@ -122,106 +122,93 @@
       background: rgba(254, 60, 114, 0.25);
     }
 
-    /* Legible Level Control Bar (Tinder Style) */
+    /* Discreet Progression & Stealth Control Bar */
     .tracker-bar {
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      background: rgba(20, 24, 30, 0.95);
-      border-bottom: 1.5px solid rgba(254, 60, 114, 0.25);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .level-tabs-row {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      width: 100%;
-    }
-
-    .level-tab-btn {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1.5px solid rgba(255, 255, 255, 0.16);
-      color: #d1d5db;
-      border-radius: 14px;
-      padding: 8px 4px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-
-    .level-tab-btn .tab-num {
-      font-size: 15px;
-      font-weight: 900;
-      line-height: 1.1;
-    }
-
-    .level-tab-btn .tab-label {
-      font-size: 11.5px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
-    }
-
-    .level-tab-btn.active {
-      background: var(--tinder-grad);
-      border-color: #ffffff;
-      color: #ffffff;
-      box-shadow: 0 0 16px rgba(254, 60, 114, 0.55);
-      transform: translateY(-1px);
-    }
-
-    .level-tab-btn.match-tab-btn {
-      background: rgba(33, 208, 124, 0.14);
-      border-color: #21D07C;
-      color: #21D07C;
-    }
-
-    .level-tab-btn.match-tab-btn:active {
-      background: #21D07C;
-      color: #111418;
-    }
-
-    .tracker-status-row {
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding: 0 2px;
+      background: rgba(20, 24, 30, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .level-select-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .level-select-pill {
+      appearance: none;
+      -webkit-appearance: none;
+      padding: 6px 26px 6px 11px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      background: rgba(254, 60, 114, 0.14);
+      color: #ff8da1;
+      border: 1.5px solid rgba(254, 60, 114, 0.35);
+      cursor: pointer;
+      outline: none;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ff8da1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
+
+    .level-select-pill option {
+      background: #191D24;
+      color: #ffffff;
+      font-weight: 700;
     }
 
     .level-hold-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
       color: #e2e8f0;
       border-radius: 20px;
-      padding: 5px 12px;
+      padding: 6px 10px;
       font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       transition: all 0.2s ease;
       white-space: nowrap;
       user-select: none;
     }
 
     .level-hold-btn.locked {
-      background: rgba(245, 185, 21, 0.2);
-      border-color: #F5B915;
+      background: rgba(245, 185, 21, 0.16);
+      border-color: rgba(245, 185, 21, 0.45);
       color: #F5B915;
     }
 
+    .phase-meter {
+      flex: 1;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      min-width: 40px;
+    }
+
+    .phase-fill {
+      height: 100%;
+      width: 25%;
+      background: var(--tinder-grad);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
     .rounds-counter {
-      font-size: 13.5px;
-      color: #ffffff;
-      font-weight: 800;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 700;
       white-space: nowrap;
     }
 
@@ -764,8 +751,8 @@
   <!-- Top Header -->
   <header>
     <div class="brand">
-      <div class="brand-icon">🔥</div>
-      <div class="brand-title">Chispa &amp; Química</div>
+      <div class="brand-icon">✨</div>
+      <div class="brand-title">Conexión Casual</div>
     </div>
     <div class="header-actions">
       <button class="icon-btn" id="btn-toggle-sound" title="Sonido">🔊</button>
@@ -773,34 +760,24 @@
     </div>
   </header>
 
-  <!-- Manual Level Control Bar (Tinder Style - Super Legible) -->
+  <!-- Discreet Tension Progression Bar (Stealth Control) -->
   <div class="tracker-bar" id="tracker-bar" style="display: none;">
-    <div class="level-tabs-row">
-      <button class="level-tab-btn active" data-level="1">
-        <span class="lvl-num">🔥 1</span>
-        <span class="lvl-label">Suave</span>
-      </button>
-      <button class="level-tab-btn" data-level="2">
-        <span class="lvl-num">✨ 2</span>
-        <span class="lvl-label">Cercanía</span>
-      </button>
-      <button class="level-tab-btn" data-level="3">
-        <span class="lvl-num">💋 3</span>
-        <span class="lvl-label">Tensión</span>
-      </button>
-      <button class="level-tab-btn" data-level="4">
-        <span class="lvl-num">🌙 4</span>
-        <span class="lvl-label">Fuego</span>
-      </button>
-      <button class="level-tab-btn match-tab" id="btn-trigger-match" title="Votación a ciegas estilo Tinder">
-        <span class="lvl-num">🔥</span>
-        <span class="lvl-label">Match</span>
-      </button>
+    <div class="level-select-wrap">
+      <select id="select-level-quick" class="level-select-pill" title="Seleccionar nivel discretamente">
+        <option value="1">🌱 Nivel 1: Rompehielo</option>
+        <option value="2">✨ Nivel 2: Confianza</option>
+        <option value="3">🥂 Nivel 3: Química</option>
+        <option value="4">🌙 Nivel 4: Cómplices</option>
+        <option value="5">🥂 Cierre de Cita</option>
+      </select>
     </div>
-    <div class="tracker-status-row">
-      <span id="phase-status-pill" class="phase-status-pill">Nivel 1: Rompehielo • Tus retos primero</span>
-      <span class="rounds-counter" id="rounds-counter">Mis retos: 0/6</span>
+    <button class="level-hold-btn locked" id="btn-toggle-hold" title="Fijar nivel o modo automático">
+      <span id="hold-icon">🔒</span> <span id="hold-text">Fijo</span>
+    </button>
+    <div class="phase-meter">
+      <div class="phase-fill" id="phase-fill"></div>
     </div>
+    <div class="rounds-counter" id="rounds-counter">Retos 0/10</div>
   </div>
 
   <main>
@@ -808,53 +785,53 @@
     <!-- SCREEN 0: SETUP / WELCOME -->
     <div class="screen active" id="screen-setup">
       <div class="setup-card">
-        <h1 class="setup-title">Chispa, Miradas &amp; Tensión</h1>
-        <p class="setup-subtitle">Un juego pensado para romper el hielo, acercarse poco a poco y descubrir hasta dónde llega la química entre ustedes hoy.</p>
+        <h1 class="setup-title">Rompehielo &amp; Conexión</h1>
+        <p class="setup-subtitle">Un juego social para conocerse de verdad, reírse un rato y descubrir qué tanta complicidad tienen.</p>
 
         <div class="input-group">
           <label class="input-label">Jugador 1</label>
-          <input type="text" id="input-p1" class="text-input" value="" placeholder="Tu nombre">
+          <input type="text" id="input-p1" class="text-input" value="" placeholder="Ej. Tu nombre">
         </div>
 
         <div class="input-group">
           <label class="input-label">Jugador 2</label>
-          <input type="text" id="input-p2" class="text-input" value="" placeholder="Su nombre">
+          <input type="text" id="input-p2" class="text-input" value="" placeholder="Ej. Su nombre">
         </div>
 
         <div class="input-group">
-          <label class="input-label">¿Qué vibra buscan esta noche?</label>
+          <label class="input-label">Ritmo de la charla</label>
           <div class="duration-selector">
             <div class="duration-btn" data-hours="1">
-              <span class="emoji">🥂</span>
-              <span class="time">Directo</span>
-              <span class="tag">Intenso</span>
+              <span class="emoji">☕</span>
+              <span class="time">1 Hora</span>
+              <span class="tag">Ligero</span>
             </div>
             <div class="duration-btn" data-hours="2">
-              <span class="emoji">✨</span>
-              <span class="time">Coqueto</span>
-              <span class="tag">A fuego lento</span>
+              <span class="emoji">🍻</span>
+              <span class="time">2 Horas</span>
+              <span class="tag">Fluido</span>
             </div>
             <div class="duration-btn selected" data-hours="3">
-              <span class="emoji">🔥</span>
-              <span class="time">Sin Prisa</span>
-              <span class="tag">Noche larga</span>
+              <span class="emoji">🌙</span>
+              <span class="time">3 Horas</span>
+              <span class="tag">Charla Larga</span>
             </div>
           </div>
         </div>
 
         <button class="btn-primary" id="btn-start-game">
-          <span>ENCENDER LA NOCHE</span> 🔥
+          <span>EMPEZAR A JUGAR</span> ➔
         </button>
 
         <div class="safety-banner">
-          💋 <b>Regla de complicidad:</b> Tú llevas el ritmo de los niveles arriba. Todo es para disfrutar, tentar y pasarla increíble.
+          🛡️ <b>Regla de confianza:</b> Todo es en buena onda y para divertirse. Siempre pueden cambiar cualquier reto con un toque.
         </div>
       </div>
     </div>
 
     <!-- SCREEN 1: WHEEL -->
     <div class="screen" id="screen-wheel">
-      <div class="turn-hint" id="wheel-turn-hint">Toca la ruleta y deja que el azar decida el próximo acercamiento</div>
+      <div class="turn-hint" id="wheel-turn-hint">Giren la ruleta para ver el siguiente turno</div>
 
       <div class="wheel-container">
         <!-- Needle Pointer -->
@@ -874,7 +851,7 @@
 
       <div style="width: 100%; display: flex; gap: 8px;">
         <button class="btn-primary" id="btn-spin-large">
-          🔥 GIRAR RULETA
+          🎲 GIRAR RULETA
         </button>
       </div>
     </div>
@@ -883,10 +860,10 @@
     <div class="screen" id="screen-timer">
       <div class="action-card">
         <div class="card-tag" id="timer-tag">Turno</div>
-        <h2 class="card-title" id="timer-title">Confesión al Oído</h2>
+        <h2 class="card-title" id="timer-title">Cumplido Sincero</h2>
         
         <div class="card-desc" id="timer-desc">
-          Tienes 30 segundos para mirarla/o de cerca y decirle qué detalle suyo te atrajo desde el primer minuto.
+          Tienes 30s para observar, pensar o indagar un cumplido sincero. ¡Vale mirar detalles!
         </div>
 
         <!-- 30s Circular Timer -->
@@ -900,10 +877,10 @@
 
         <div class="btn-grid-2">
           <button class="btn-green" id="btn-timer-pass">
-            💚 ¡Me encantó! Siguiente
+            ✨ ¡Te creo! Siguiente
           </button>
           <button class="btn-red" id="btn-timer-fail">
-            🔥 No te creo / Demuéstralo
+            🤔 Dudo / Argumenta
           </button>
         </div>
       </div>
@@ -912,10 +889,10 @@
     <!-- SCREEN 3: DEFENSE / ARGUMENTACIÓN (40s) -->
     <div class="screen" id="screen-defense">
       <div class="action-card">
-        <div class="card-tag" style="background: rgba(245, 185, 21, 0.2); color: var(--accent); border-color: var(--accent);">🔥 Tensión en la Mesa</div>
-        <h2 class="card-title">Mírame a los ojos (40s)</h2>
+        <div class="card-tag" style="background: rgba(245, 185, 21, 0.2); color: var(--accent); border-color: var(--accent);">🗣️ Ronda de Argumentos</div>
+        <h2 class="card-title">Tienes 40 Segundos</h2>
         <div class="card-desc">
-          Acércate un poco más, sosténle la mirada y convéncela/o de que lo que acabas de decir es 100% real… o pagas penitencia.
+          Míralo/a a los ojos y explica con detalles por qué lo que acabas de decir es 100% real.
         </div>
 
         <!-- 40s Timer -->
@@ -929,10 +906,10 @@
 
         <div class="btn-grid-2">
           <button class="btn-green" id="btn-defense-pass">
-            💚 Te salvaste esta vez
+            😊 Me convenciste
           </button>
           <button class="btn-red" id="btn-defense-fail">
-            🔥 A pagar Penitencia ➔
+            🎲 No me convenció ➔ Reto
           </button>
         </div>
       </div>
@@ -941,23 +918,23 @@
     <!-- SCREEN 4: DARE / RETO DE COMPLICIDAD -->
     <div class="screen" id="screen-dare">
       <div class="action-card">
-        <div class="card-tag" id="dare-phase-tag">🔥 Nivel 1 • Tu Penitencia</div>
-        <h2 class="card-title" id="dare-title">Hora de Acercarse</h2>
+        <div class="card-tag" id="dare-phase-tag">🌱 Nivel 1: Rompehielo</div>
+        <h2 class="card-title" id="dare-title">Reto de Complicidad</h2>
         <div class="card-desc" id="dare-text">
           Toma la mano de tu acompañante durante 1 minuto completo mientras siguen jugando.
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
           <button class="btn-outline" id="btn-swap-dare">
-            🔄 Cambiar por otra penitencia de este nivel
+            🔄 Cambiar por otro reto de este nivel
           </button>
           <button class="btn-primary" id="btn-dare-done">
-            🔥 Penitencia Cumplida ➔ Seguir
+            ✨ Reto Cumplido ➔ Continuar
           </button>
         </div>
 
         <div class="safety-banner" style="margin-top: 12px;" id="dare-origin-hint">
-          💋 Jugando primero tus penitencias favoritas de este nivel.
+          💡 Si un reto les da pena, pueden usar el botón de cambiar sin problema.
         </div>
       </div>
     </div>
@@ -973,14 +950,14 @@
               <path d="M2 19h20M2 10v9M22 10v9M2 14h20M6 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4M14 14v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v4"/>
             </svg>
           </div>
-          <div class="tinder-match-badge">🔥 Match Final a Ciegas</div>
-          <h2 class="alert-title">¿Seguimos la noche en privado?</h2>
+          <div class="tinder-match-badge">🔥 Match a Ciegas</div>
+          <h2 class="alert-title">¿Seguir en un lugar más cómodo?</h2>
           <p class="alert-desc">
-            La química subió de nivel. Funciona igual que Tinder:<br>
-            Cada uno desliza su respuesta en secreto. <b>Solo habrá Match si AMBOS eligen ir a un sitio más cómodo y privado.</b> Si no, seguimos tomando algo aquí sin que nadie lo sepa.
+            Votación a ciegas estilo Tinder:<br>
+            Cada uno votará en secreto en el celular. <b>Solo sabrán si coinciden si AMBOS dicen que sí.</b> Si alguno no coincide, el juego sigue normal aquí en el bar sin roces.
           </p>
           <button class="btn-primary" id="btn-start-vote">
-            🔥 DESCUBRIR SI HAY MATCH ➔
+            🔒 VOTAR A CIEGAS ➔
           </button>
         </div>
 
@@ -1377,38 +1354,38 @@
        ========================================================= */
     const DEFAULT_DARES = {
       1: [
-        "Comparar manos: Toma la mano de tu acompañante, apóyala sobre la tuya y dile qué sientes al tocar su piel por primera vez.",
-        "Mirada fija: Sosténle la mirada a los ojos durante 15 segundos a corta distancia intentando no reírte ni bajar la vista.",
-        "Selfie cómplice: Tómense o tómate una foto espontánea juntos haciendo el gesto que tu acompañante elija.",
-        "Lectura de mano: Toma su mano entre las tuyas por 20 segundos, acaricia su palma y adivínale qué va a pasar entre ustedes hoy.",
-        "Reto de perfil: Sube una foto espontánea tomada en esta mesa a tu perfil por lo que reste de la cita.",
-        "Lectura en frío: Mírala/o de arriba a abajo con picardía y lanza 2 teorías sobre cómo es en la intimidad o cuando le gusta alguien."
+        "Comparar manos: Toma la mano de tu acompañante, apóyala sobre la tuya y dile si la sientes más suave o más cálida.",
+        "Mirada fija: Sostén la mirada a los ojos de tu acompañante durante 15 segundos intentando no reírte.",
+        "Selfie divertida: Tómense o tómate una foto haciendo el gesto gracioso que tu acompañante elija.",
+        "Lectura de mano: Toma la mano de tu acompañante con ambas manos por 20 segundos y adivínale un futuro divertido.",
+        "Reto de perfil: Sube una foto espontánea tomada en la mesa a tu perfil por lo que reste de la cita.",
+        "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 teorías curiosas sobre su personalidad."
       ],
       2: [
-        "Mano entrelazada: Entrelaza tus dedos con los de tu acompañante sobre la mesa durante 1 minuto mientras siguen mirándose y charlando.",
-        "Modo pareja: Tómate de la mano o del brazo de tu acompañante bien pegaditos como si fueran pareja durante 1 minuto.",
-        "El test del perfume: Acércate despacio a su cuello, respira su aroma durante 5 segundos rozando casi su piel y califícalo de 1 a 10.",
-        "Secreto al oído: Acércate pegado a su oído y susúrrale en voz muy baja qué fue lo más atractivo que le viste al llegar hoy.",
-        "Beso lento en la mejilla: Dale un beso suave y detenido en la mejilla, muy cerca de sus labios, quedándote ahí 3 segundos.",
-        "Catador de piel: Acaricia con dos dedos su mejilla, cuello o antebrazo y dile al oído qué tan suave se siente.",
-        "El apodo secreto: Susúrrale muy cerca del oído cómo le dirías en privado si esta noche terminan juntos."
+        "Mano entrelazada: Toma la mano de tu acompañante con los dedos entrelazados sobre la mesa durante 1 minuto mientras siguen charlando.",
+        "Modo pareja: Tómate de la mano o del brazo de tu acompañante como si fueran novios de toda la vida durante 1 minuto.",
+        "El test del perfume: Acércate un momento a su cuello, siente su aroma por 5 segundos y califícalo de 1 a 10.",
+        "Secreto al oído: Acércate a su oído y cuéntale en voz baja qué fue lo primero que pensaste al verlo/a llegar hoy.",
+        "Beso en la mejilla: Dale un beso suave y lento en la mejilla, quedándote cerquita durante 3 segundos.",
+        "Catador de suavidad: Toca con dos dedos su mejilla o antebrazo y da una reseña exagerada calificando su piel.",
+        "El apodo secreto: Susúrrale al oído el apodo más tierno o gracioso que le pondrías si fueran pareja."
       ],
       3: [
-        "Foto tentadora: Abre tu galería y muéstrale durante 5 segundos una foto tuya donde sientas que te ves irresistible.",
-        "Pregunta sin filtro: Responde con total honestidad a la pregunta más íntima o atrevida que tu acompañante quiera hacerte ahora mismo.",
-        "Secreto bajo la ropa: Susúrrale al oído de qué color y estilo es la prenda interior que llevas puesta en este instante.",
-        "Respiración en el cuello: Acércate a milímetros de su oreja y cuello durante 10 segundos en silencio, dejando que sienta tu respiración.",
-        "Masaje sensual: Dale un masaje lento y envolvente en los hombros y la nuca durante 30 segundos.",
-        "Brindis de mirada: Bebe un sorbo lento de tu vaso clavando la mirada en sus labios y luego en sus ojos sin decir una palabra.",
-        "Confesión por escrito: Escríbele por WhatsApp ahora mismo qué es lo que más ganas tienes de hacerle hoy si se van juntos."
+        "Foto favorita: Abre tu galería y muéstrale durante 5 segundos una foto tuya donde sientas que te ves muy bien o atractiva/o.",
+        "Pregunta sin filtro: Responde con total sinceridad a una pregunta curiosa o íntima que tu acompañante quiera hacerte.",
+        "Detalle oculto: Cuenta en voz baja al oído de qué color o estilo es la prenda interior que elegiste hoy.",
+        "Cercanía al oído: Acércate muy cerca de su oreja o cuello durante 10 segundos en silencio sin reírte.",
+        "Masaje relajante: Dale un masaje suave en los hombros y la nuca a tu acompañante durante 30 segundos.",
+        "Brindis de mirada: Toma un buen sorbo de tu bebida sosteniendo la mirada fija en los ojos de tu acompañante.",
+        "Nota secreta: Escríbele por WhatsApp o en una servilleta algo que te dé curiosidad o ganas de intentar con él/ella hoy."
       ],
       4: [
         "Secreto en el espejo: Ve un momento al baño, tómate una foto coqueta en el espejo mostrando un detalle discreto de tu prenda interior y envíasela por WhatsApp.",
-        "Beso en el cuello: Acércate con disimulo y dale un beso lento, húmedo y suave en el cuello sin que las demás mesas lo noten.",
-        "Toque travieso: Con total disimulo bajo la mesa o al acercarte, dale una caricia firme y juguetona en la cintura o cadera por 5 segundos.",
-        "Permiso concedido: Con una sola mano y sosteniendo la mirada, desabotónale un botón de la camisa o el primer botón del pantalón bajo la mesa.",
-        "Beso cómplice (20 segundos): Toma suavemente su rostro o nuca con tu mano y dense un beso lento, profundo y sin prisa.",
-        "Mordisco suave: Acércate a su cuello o al lóbulo de su oreja y dale un mordisquito suave seguido de un beso."
+        "Beso en el cuello: Acércate con disimulo y dale un beso suave y lento en el cuello sin que las demás mesas lo noten.",
+        "Toque travieso: Con total disimulo (al acomodarte o bajo la mesa), dale una caricia o apretón juguetón en la cintura o cadera por 5 segundos.",
+        "Permiso concedido: Con una sola mano y mirándose a los ojos, desabotónale un botón de la camisa o el primer botón del pantalón bajo la mesa.",
+        "Beso cómplice (20 segundos): Toma suavemente su rostro con tus manos y dense un beso lento y sin prisa.",
+        "Mordisco suave: Acércate a su cuello o lóbulo de la oreja y dale un mordisquito suave con total sutileza."
       ]
     };
 
@@ -1417,32 +1394,32 @@
        ========================================================= */
     const AI_EXTRA_DARES = {
       1: [
-        "Brindis de miradas: Choquen sus vasos y beban un sorbo sosteniendo la mirada fijamente sin parpadear.",
-        "Detalle magnético: Mira un rasgo del rostro de tu acompañante (ojos, labios o sonrisa) y dile en voz baja por qué te atrae.",
-        "Contacto inicial: Apoya tu mano suavemente sobre el antebrazo o muñeca de tu acompañante durante 20 segundos mientras hablan.",
-        "Sonrisa culpable: Mírense a los ojos a 20 centímetros de distancia; el primero en sonreír o desviar la mirada toma un trago.",
-        "Pulso en la muñeca: Pon dos dedos sobre el pulso de su muñeca por 15 segundos y dile si sientes que está tranquilo/a o nervioso/a."
+        "Brindis de miradas: Choquen sus vasos y beban un sorbo sosteniendo la mirada fijamente sin decir una palabra.",
+        "Cumplido de cerca: Mira un rasgo específico del rostro de tu acompañante y dile en voz baja por qué te llama la atención.",
+        "Contacto sutil: Apoya tu mano sobre el antebrazo de tu acompañante durante 20 segundos mientras siguen charlando.",
+        "Duelo de sonrisas: Mírense de cerca durante 15 segundos; el primero en sonreír o bajar la mirada toma un sorbo.",
+        "El pulso: Toca suavemente su muñeca por 15 segundos y adivina si está relajado/a o nervioso/a."
       ],
       2: [
-        "Acomodar detalle: Con mucha calma y mirándolo/a a los ojos, acomódale un mechón de cabello o el cuello de su prenda rozando su piel.",
-        "Caricia de palma: Toma su mano y desliza lentamente la yema de tu dedo por el centro de su palma y muñeca durante 20 segundos.",
-        "Roce de piernas: Acerquen sus sillas y mantengan las piernas en contacto por debajo de la mesa durante toda la siguiente ronda.",
-        "Susurro al cuello: Acércate a su oído y dile con voz suave qué parte de su cuerpo te da más curiosidad tocar.",
-        "Beso en la mano: Toma su mano, llévala despacio hacia tus labios y dale un beso suave sosteniéndole la mirada."
+        "Acomodar detalle: Acomódale con delicadeza un mechón de cabello o el cuello de su camisa tomándote tu tiempo.",
+        "Caricia de palma: Toma su mano y desliza lentamente la yema de tu dedo por el centro de su palma por 20 segundos.",
+        "Roce de rodillas: Mantengan las rodillas en contacto por debajo de la mesa durante la siguiente ronda.",
+        "Susurro cómplice: Acércate a su oído y dile en voz baja qué rasgo suyo te dio más curiosidad hoy.",
+        "Saludo de caballero/dama: Toma su mano con suavidad y dale un beso corto en el dorso sosteniendo la mirada."
       ],
       3: [
-        "Contacto bajo la mesa: Apoya tu mano con suavidad pero firmeza sobre su rodilla o muslo debajo de la mesa durante el siguiente turno.",
-        "Susurro a oscuras: Acércate a su oreja y susúrrale qué le harías ahora mismo si las luces del lugar se apagaran por 1 minuto.",
-        "Juego de labios: Mírale fijamente los labios durante 10 segundos a muy corta distancia y luego muérdete el labio suavemente.",
-        "Caricia en la nuca: Pasa tus dedos suavemente por su nuca y cabello durante 15 segundos mientras la/lo miras de cerca.",
-        "Tentación al oído: Dile al oído en una sola frase qué tendría que hacer hoy para volverte completamente loco/a."
+        "Contacto cómplice: Apoya tu mano suavemente sobre la rodilla o pierna de tu acompañante debajo de la mesa durante el siguiente turno.",
+        "Susurro provocador: Acércate a su oreja y susúrrale qué harías con él/ella si las luces del bar se apagaran 30 segundos.",
+        "Juego de labios: Mírale fijamente los labios a tu acompañante durante 10 segundos y luego muérdete el labio suavemente.",
+        "Caricia en la nuca: Pasa tus dedos suavemente por su nuca durante 15 segundos mientras siguen conversando.",
+        "Confesión al oído: Acércate y dile en voz muy baja qué es lo que más te gusta de cómo va la cita hasta ahora."
       ],
       4: [
-        "Caricia bajo la prenda: Desliza tu mano por la parte baja de su espalda o cintura por debajo de su chaqueta o blusa durante 15 segundos.",
-        "Beso al borde de los labios: Dale un beso muy lento en la comisura de los labios y quédate a un milímetro de su boca por 5 segundos.",
-        "Mano en el muslo: Desliza tu mano un poco más arriba por su pierna bajo la mesa durante 15 segundos mientras actúan normal.",
-        "Susurro final: Acércate pegado a sus labios y dile al oído en qué lugar exacto quieres besarla/o apenas salgan de aquí.",
-        "Segundo beso lento: Tómalo/a de la cintura o del cuello y dale un beso pausado que dure al menos 15 segundos."
+        "Caricia bajo la chaqueta: Desliza tu mano por la parte baja de su espalda bajo la chaqueta o camisa durante 15 segundos.",
+        "Beso cerca de los labios: Dale un beso suave y lento en la mejilla, justo al borde de la comisura de sus labios.",
+        "Mano en la pierna: Mantén tu mano apoyada sobre su muslo por debajo de la mesa durante los próximos 20 segundos.",
+        "Susurro de salida: Dile muy cerca al oído cuál es el primer lugar donde te gustaría darle un beso cuando salgan de aquí.",
+        "Beso sin prisa: Acércate despacio y dale un beso suave que dure al menos 15 segundos."
       ]
     };
 
@@ -1462,8 +1439,8 @@
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      isLevelLocked: true, // Tú llevas el ritmo de los niveles manualmente
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v8')) || JSON.parse(JSON.stringify(DEFAULT_DARES)),
+      isLevelLocked: true, // Empieza fijo para que tú controles el nivel discretamente sin que ella se dé cuenta
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v9')) || JSON.parse(JSON.stringify(DEFAULT_DARES)),
       usedQuestions: new Set(),
       usedDares: new Set(),
       usedAiDares: new Set(),
@@ -1488,62 +1465,66 @@
     }
 
     function updateTrackerUI() {
+      const fill = document.getElementById('phase-fill');
       const counter = document.getElementById('rounds-counter');
-      const statusPill = document.getElementById('phase-status-pill');
+      const holdBtn = document.getElementById('btn-toggle-hold');
+      const holdIcon = document.getElementById('hold-icon');
+      const holdText = document.getElementById('hold-text');
+      const modalStatus = document.getElementById('modal-hold-status');
+      const modalIcon = document.getElementById('modal-hold-icon');
 
       const names = {
-        1: '🔥 Nivel 1: Suave & Miradas',
-        2: '✨ Nivel 2: Cercanía & Piel',
-        3: '💋 Nivel 3: Tensión & Deseo',
-        4: '🌙 Nivel 4: Fuego & Cómplices'
+        1: { name: 'Nivel 1: Rompehielo', emoji: '🌱', color: '#21D07C' },
+        2: { name: 'Nivel 2: Confianza', emoji: '✨', color: '#F5B915' },
+        3: { name: 'Nivel 3: Química', emoji: '🥂', color: '#17AFEF' },
+        4: { name: 'Nivel 4: Cómplices', emoji: '🌙', color: '#FE3C72' }
       };
 
-      // Highlight the active level button in the top row
-      document.querySelectorAll('.level-tab-btn[data-level]').forEach(btn => {
-        const lvl = parseInt(btn.dataset.level, 10);
-        if (lvl === state.currentPhase) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-
-      // Calculate how many of Camilo's created dares remain in the current level
-      const userList = (state.customDares[state.currentPhase] || []).filter(d => d !== 'ALERTA_PRIVADA');
-      const totalUserInLevel = userList.length;
-      const usedUserInLevel = userList.filter(d => state.usedDares.has(d)).length;
-
-      if (statusPill) {
-        statusPill.innerText = names[state.currentPhase] || names[1];
+      const cur = names[state.currentPhase] || names[1];
+      const selectPill = document.getElementById('select-level-quick');
+      if (selectPill) {
+        selectPill.value = state.currentPhase;
+        selectPill.style.borderColor = cur.color;
+        selectPill.style.color = cur.color;
+        selectPill.style.background = cur.color + '22';
+        selectPill.style.backgroundImage = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(cur.color)}' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`;
       }
 
-      if (counter) {
-        if (usedUserInLevel < totalUserInLevel) {
-          counter.innerText = `Tus retos: ${usedUserInLevel}/${totalUserInLevel}`;
-          counter.style.color = '#ffffff';
-        } else {
-          counter.innerText = `✨ Retos IA activos`;
-          counter.style.color = '#FF6036';
-        }
+      if (state.isLevelLocked) {
+        if (holdBtn) holdBtn.classList.add('locked');
+        if (holdIcon) holdIcon.innerText = '🔒';
+        if (holdText) holdText.innerText = 'Fijo';
+        if (modalStatus) modalStatus.innerText = `Modo Sostenido (Fijo en Nivel ${state.currentPhase})`;
+        if (modalIcon) modalIcon.innerText = '🔒';
+      } else {
+        if (holdBtn) holdBtn.classList.remove('locked');
+        if (holdIcon) holdIcon.innerText = '🔓';
+        if (holdText) holdText.innerText = 'Auto';
+        if (modalStatus) modalStatus.innerText = 'Modo Dinámico (Sube con retos)';
+        if (modalIcon) modalIcon.innerText = '🔓';
       }
+
+      const pct = Math.min(100, Math.round((state.daresCompleted / state.totalDaresToExit) * 100));
+      if (fill) fill.style.width = Math.max(12, pct) + '%';
+      if (counter) counter.innerText = `Retos ${state.daresCompleted}/${state.totalDaresToExit} • Giro ${state.spinsCount}`;
     }
 
     /* =========================================================
-       ROULETTE WHEEL (Canvas 2D - 8 Equitable Slices - Tinder Palette)
+       ROULETTE WHEEL (Canvas 2D - 8 Equitable Slices - Tinder Colors, Casual Labels)
        ========================================================= */
     const canvas = document.getElementById('wheel-canvas');
     const ctx = canvas.getContext('2d');
 
     function getSlices() {
       return [
-        { label: `🔥 Turno ${state.p1}`, type: 'p1', color: '#FE3C72', textColor: '#ffffff' },
-        { label: '💋 Pregunta Caliente', type: 'question', color: '#17AFEF', textColor: '#ffffff' },
-        { label: `🔥 Turno ${state.p2}`, type: 'p2', color: '#FF6036', textColor: '#ffffff' },
-        { label: '🙈 Confesión Íntima', type: 'flag', color: '#F5B915', textColor: '#111418' },
-        { label: `🔥 Turno ${state.p1}`, type: 'p1', color: '#FE3C72', textColor: '#ffffff' },
-        { label: '💋 Pregunta Caliente', type: 'question', color: '#17AFEF', textColor: '#ffffff' },
-        { label: `🔥 Turno ${state.p2}`, type: 'p2', color: '#FF6036', textColor: '#ffffff' },
-        { label: '🙈 Confesión Íntima', type: 'flag', color: '#F5B915', textColor: '#111418' }
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#FE3C72', textColor: '#ffffff' },
+        { label: '💬 Pregunta Casual', type: 'question', color: '#17AFEF', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#FF6036', textColor: '#ffffff' },
+        { label: '🙈 Mi Confesión', type: 'flag', color: '#F5B915', textColor: '#111418' },
+        { label: `✨ Turno ${state.p1}`, type: 'p1', color: '#FE3C72', textColor: '#ffffff' },
+        { label: '💬 Pregunta Casual', type: 'question', color: '#17AFEF', textColor: '#ffffff' },
+        { label: `✨ Turno ${state.p2}`, type: 'p2', color: '#FF6036', textColor: '#ffffff' },
+        { label: '🙈 Mi Confesión', type: 'flag', color: '#F5B915', textColor: '#111418' }
       ];
     }
 
@@ -1666,21 +1647,21 @@
       const desc = document.getElementById('timer-desc');
 
       if (slice.type === 'p1') {
-        tag.innerText = `🔥 Turno de ${state.p1}`;
-        title.innerText = `Tensión con ${state.p2}`;
-        desc.innerText = `Tienes 30s para mirar de cerca a ${state.p2} y confesarle qué detalle físico o gesto suyo te atrae más hoy.`;
+        tag.innerText = `✨ Turno de ${state.p1}`;
+        title.innerText = `Cumplido para ${state.p2}`;
+        desc.innerText = `Tienes 30s para observar o indagar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Vale mirar detalles!`;
       } else if (slice.type === 'p2') {
-        tag.innerText = `🔥 Turno de ${state.p2}`;
-        title.innerText = `Tensión con ${state.p1}`;
-        desc.innerText = `Tienes 30s para mirar de cerca a ${state.p1} y confesarle qué detalle físico o gesto suyo te llamó más la atención hoy.`;
+        tag.innerText = `✨ Turno de ${state.p2}`;
+        title.innerText = `Cumplido para ${state.p1}`;
+        desc.innerText = `Tienes 30s para observar o indagar y decirle a ${state.p1} algo sincero que te guste. ¡Vale mirar detalles!`;
       } else if (slice.type === 'question') {
-        tag.innerText = `💋 Pregunta Nivel ${state.currentPhase}`;
-        title.innerText = `Sin censura ni rodeos`;
+        tag.innerText = `💬 Pregunta Casual (Nivel ${state.currentPhase})`;
+        title.innerText = `Responde con sinceridad`;
         desc.innerText = getRandomQuestion();
       } else if (slice.type === 'flag') {
-        tag.innerText = `🙈 Confesión Íntima`;
-        title.innerText = `Tu lado más oculto`;
-        desc.innerText = `Tienes 30s para confesar un gusto culposo, una debilidad en la intimidad o una manía que casi nadie sabe de ti.`;
+        tag.innerText = `🙈 Mi Confesión`;
+        title.innerText = `Sinceridad ante todo`;
+        desc.innerText = `Tienes 30s para contar una manía tuya graciosa o un defecto real que tus amigos siempre te critican.`;
       }
 
       startCountdown('timer-circle-progress', 'timer-number', 30, () => {
@@ -1799,25 +1780,17 @@
       showScreen('screen-dare');
       const phaseTag = document.getElementById('dare-phase-tag');
       const dareText = document.getElementById('dare-text');
-      const originHint = document.getElementById('dare-origin-hint');
 
       const phaseNames = {
-        1: '🔥 Nivel 1: Suave',
-        2: '✨ Nivel 2: Cercanía',
-        3: '💋 Nivel 3: Tensión',
-        4: '🌙 Nivel 4: Fuego'
+        1: '🌱 Nivel 1: Rompehielo',
+        2: '✨ Nivel 2: Confianza',
+        3: '🥂 Nivel 3: Química',
+        4: '🌙 Nivel 4: Cómplices'
       };
 
       const chosenDare = getRandomDare();
+      phaseTag.innerText = phaseNames[state.currentPhase] || '🌱 Nivel 1: Rompehielo';
       dareText.innerText = chosenDare;
-
-      if (state.lastDareWasAI) {
-        phaseTag.innerText = `${phaseNames[state.currentPhase]} • ✨ Penitencia IA`;
-        if (originHint) originHint.innerHTML = `✨ <b>Tus penitencias de este nivel se completaron.</b> La IA creó esta nueva para seguir el ritmo.`;
-      } else {
-        phaseTag.innerText = `${phaseNames[state.currentPhase]} • 🔥 Tu Penitencia`;
-        if (originHint) originHint.innerHTML = `💋 Jugando primero tus penitencias creadas para este nivel.`;
-      }
 
       updateTrackerUI();
       sound.playBuzzer();
@@ -1887,7 +1860,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v8', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v9', JSON.stringify(state.customDares));
       renderCustomDaresList();
       updateTrackerUI();
     };
@@ -1960,43 +1933,104 @@
       state.daresCompleted++;
       state.phaseDaresCount[state.currentPhase] = (state.phaseDaresCount[state.currentPhase] || 0) + 1;
 
+      const targetInPhase = state.daresPerPhase[state.currentPhase] || 2;
+
+      // Si está en modo Auto (🔓), avanza de nivel automáticamente tras cumplir la cuota
+      if (!state.isLevelLocked) {
+        if (state.phaseDaresCount[state.currentPhase] >= targetInPhase) {
+          if (state.currentPhase < 4) {
+            state.currentPhase++;
+            sound.playGong();
+            sound.vibrate([100, 50, 100]);
+          } else {
+            showPrivateAlert();
+            return;
+          }
+        }
+
+        if (state.daresCompleted >= state.totalDaresToExit) {
+          showPrivateAlert();
+          return;
+        }
+      }
+
       updateTrackerUI();
       sound.playSuccess();
       showScreen('screen-wheel');
     }
 
-    // Top Row Level Buttons (Manual Rhythm Control by Camilo)
-    document.querySelectorAll('.level-tab-btn[data-level]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const chosen = parseInt(btn.dataset.level, 10);
+    // Discreet Level & Hold Control (Stealth Control for Camilo)
+    const btnToggleHold = document.getElementById('btn-toggle-hold');
+    const selectLevelQuick = document.getElementById('select-level-quick');
+    const modalLevelControl = document.getElementById('modal-level-control');
+    const btnCloseLevelControl = document.getElementById('btn-close-level-control');
+    const btnToggleAutoHold = document.getElementById('btn-toggle-auto-hold');
+
+    if (selectLevelQuick) {
+      selectLevelQuick.addEventListener('change', (e) => {
+        const chosen = parseInt(e.target.value, 10);
+        if (chosen === 5) {
+          // Opción discreta para lanzar el cierre Match a ciegas cuando tú decidas
+          selectLevelQuick.value = state.currentPhase;
+          showPrivateAlert();
+          return;
+        }
         state.currentPhase = chosen;
-        state.isLevelLocked = true;
+        state.isLevelLocked = true; // Se queda fijo en el nivel que elegiste
         sound.playSuccess();
         sound.vibrate([40, 20, 40]);
         updateTrackerUI();
-        // Si estamos viendo una penitencia y cambias de nivel arriba, actualiza la penitencia a ese nivel al instante
         const dareScreen = document.getElementById('screen-dare');
         if (dareScreen && dareScreen.classList.contains('active')) {
           setupDareScreen();
         }
       });
-    });
+    }
 
-    // Botón directo para activar el cierre Tinder Match cuando Camilo decida
-    const btnTriggerMatch = document.getElementById('btn-trigger-match');
-    if (btnTriggerMatch) {
-      btnTriggerMatch.addEventListener('click', () => {
-        showPrivateAlert();
+    if (btnToggleHold) {
+      btnToggleHold.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.isLevelLocked = !state.isLevelLocked;
+        sound.playTick();
+        sound.vibrate(30);
+        updateTrackerUI();
       });
     }
+
+    if (btnCloseLevelControl) {
+      btnCloseLevelControl.addEventListener('click', () => {
+        modalLevelControl.classList.remove('open');
+      });
+    }
+
+    if (btnToggleAutoHold) {
+      btnToggleAutoHold.addEventListener('click', () => {
+        state.isLevelLocked = !state.isLevelLocked;
+        sound.playTick();
+        sound.vibrate(30);
+        updateTrackerUI();
+      });
+    }
+
+    document.querySelectorAll('.level-select-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedLevel = parseInt(btn.dataset.level, 10);
+        state.currentPhase = selectedLevel;
+        state.isLevelLocked = true;
+        sound.playSuccess();
+        sound.vibrate([50, 30, 50]);
+        updateTrackerUI();
+        modalLevelControl.classList.remove('open');
+      });
+    });
 
     // Secret Blind Match Listeners
     document.getElementById('btn-start-vote').addEventListener('click', () => {
       sound.playTick();
       document.getElementById('vote-step-1').style.display = 'none';
       document.getElementById('vote-step-2').style.display = 'block';
-      document.getElementById('vote-title-p2').innerText = `Turno secreto de ${state.p2}`;
-      document.getElementById('vote-desc-p2').innerHTML = `Pásale el celular a <b>${state.p2}</b> para que elija en privado:<br><br>Si la química está increíble… ¿te gustaría salir de aquí e ir juntos a un sitio más cómodo y privado?`;
+      document.getElementById('vote-title-p2').innerText = `Vota ${state.p2}`;
+      document.getElementById('vote-desc-p2').innerHTML = `Pásale el celular a <b>${state.p2}</b> para que vote a ciegas:<br><br>¿Te gustaría continuar la noche y los retos en un lugar más cómodo y privado?`;
     });
 
     function registerVoteP2(vote) {
@@ -2005,8 +2039,8 @@
       sound.vibrate(30);
       document.getElementById('vote-step-2').style.display = 'none';
       document.getElementById('vote-step-3').style.display = 'block';
-      document.getElementById('vote-title-p1').innerText = `Turno secreto de ${state.p1}`;
-      document.getElementById('vote-desc-p1').innerHTML = `¡Respuesta guardada en secreto! 🤫<br>Devuélvele el celular a <b>${state.p1}</b>.<br><br>¿Quieres llevar la noche a un sitio más cómodo y privado con <b>${state.p2}</b>?`;
+      document.getElementById('vote-title-p1').innerText = `Vota ${state.p1}`;
+      document.getElementById('vote-desc-p1').innerHTML = `¡Voto registrado en secreto! 🤫<br>Devuélvele el celular a <b>${state.p1}</b>.<br><br>¿Tú también quieres continuar en un lugar más cómodo y privado?`;
     }
 
     document.getElementById('btn-vote-p2-yes').addEventListener('click', () => registerVoteP2(true));
@@ -2076,7 +2110,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v8', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v9', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       updateTrackerUI();
@@ -2085,9 +2119,9 @@
 
     // Reset dares
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
-      if (confirm('¿Restablecer todos los retos a tus originales?')) {
+      if (confirm('¿Restablecer todos los retos a los originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v8');
+        localStorage.removeItem('ruleta_dares_v9');
         state.usedDares.clear();
         state.usedAiDares.clear();
         renderCustomDaresList();
