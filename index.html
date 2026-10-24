@@ -683,13 +683,13 @@
         <p class="setup-subtitle">Una ruleta equitativa, cumplidos sinceros y retos que suben de temperatura sin que se den cuenta.</p>
 
         <div class="input-group">
-          <label class="input-label">Jugador 1 (Tu nombre)</label>
-          <input type="text" id="input-p1" class="text-input" value="Camilo" placeholder="Ej. Camilo">
+          <label class="input-label">Jugador 1</label>
+          <input type="text" id="input-p1" class="text-input" value="" placeholder="Ej. Tu nombre">
         </div>
 
         <div class="input-group">
-          <label class="input-label">Jugador 2 (Su nombre)</label>
-          <input type="text" id="input-p2" class="text-input" value="Nani" placeholder="Ej. Nani">
+          <label class="input-label">Jugador 2</label>
+          <input type="text" id="input-p2" class="text-input" value="" placeholder="Ej. Su nombre">
         </div>
 
         <div class="input-group">
@@ -746,23 +746,23 @@
       </div>
     </div>
 
-    <!-- SCREEN 2: TIMER / QUESTION -->
+    <!-- SCREEN 2: TIMER / QUESTION (40s) -->
     <div class="screen" id="screen-timer">
       <div class="action-card">
         <div class="card-tag" id="timer-tag">Turno</div>
-        <h2 class="card-title" id="timer-title">Mira a los ojos</h2>
+        <h2 class="card-title" id="timer-title">Cumplido Sincero</h2>
         
         <div class="card-desc" id="timer-desc">
-          Dile un cumplido sincero a tu acompañante. ¡Prohibido repetir!
+          Tienes 40s para observar, pensar o indagar un cumplido sincero. ¡Prohibido repetir!
         </div>
 
-        <!-- 7s Circular Timer -->
+        <!-- 40s Circular Timer -->
         <div class="timer-circle">
           <svg viewBox="0 0 100 100">
             <circle class="bg" cx="50" cy="50" r="40"/>
             <circle class="progress" id="timer-circle-progress" cx="50" cy="50" r="40"/>
           </svg>
-          <div class="timer-number" id="timer-number">7</div>
+          <div class="timer-number" id="timer-number">40</div>
         </div>
 
         <div class="btn-grid-2">
@@ -770,36 +770,36 @@
             ✅ Pasó la prueba
           </button>
           <button class="btn-red" id="btn-timer-fail">
-            ❌ No te creo / Tiempo
+            ❌ No te creo / Argumentar
           </button>
         </div>
       </div>
     </div>
 
-    <!-- SCREEN 3: DEFENSE (10s) -->
+    <!-- SCREEN 3: DEFENSE / ARGUMENTACIÓN (40s) -->
     <div class="screen" id="screen-defense">
       <div class="action-card">
-        <div class="card-tag" style="background: rgba(255, 184, 77, 0.2); color: var(--accent); border-color: var(--accent);">¡Objeción!</div>
-        <h2 class="card-title">Tienes 10 Segundos</h2>
+        <div class="card-tag" style="background: rgba(255, 184, 77, 0.2); color: var(--accent); border-color: var(--accent);">¡Objeción! Modo Argumentar</div>
+        <h2 class="card-title">Tienes 40 Segundos</h2>
         <div class="card-desc">
-          Míralo/a fijamente a los ojos y convéncelo/a de que estás diciendo la verdad absoluta.
+          Míralo/a a los ojos y argumenta con hechos por qué estás diciendo la verdad absoluta.
         </div>
 
-        <!-- 10s Timer -->
+        <!-- 40s Timer -->
         <div class="timer-circle">
           <svg viewBox="0 0 100 100">
             <circle class="bg" cx="50" cy="50" r="40"/>
             <circle class="progress" id="defense-circle-progress" cx="50" cy="50" r="40" style="stroke: var(--accent);"/>
           </svg>
-          <div class="timer-number" id="defense-number">10</div>
+          <div class="timer-number" id="defense-number">40</div>
         </div>
 
         <div class="btn-grid-2">
           <button class="btn-green" id="btn-defense-pass">
-            😎 Me convenció
+            😎 Convencido / Le creo
           </button>
           <button class="btn-red" id="btn-defense-fail">
-            🔥 Paga Penitencia
+            🔥 No me convenció ➔ Penitencia
           </button>
         </div>
       </div>
@@ -1057,8 +1057,8 @@
        GAME STATE MANAGEMENT
        ========================================================= */
     const state = {
-      p1: 'Camilo',
-      p2: 'Nani',
+      p1: 'Jugador 1',
+      p2: 'Jugador 2',
       hours: 2,
       spinsCount: 0,
       currentPhase: 1,
@@ -1259,11 +1259,11 @@
       if (slice.type === 'p1') {
         tag.innerText = `✨ Turno de ${state.p1}`;
         title.innerText = `Cumplido para ${state.p2}`;
-        desc.innerText = `Mira a ${state.p2} a los ojos y dile algo sincero que te guste mucho de ella. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 40s para observar o investigar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Prohibido repetir!`;
       } else if (slice.type === 'p2') {
         tag.innerText = `✨ Turno de ${state.p2}`;
         title.innerText = `Cumplido para ${state.p1}`;
-        desc.innerText = `Mira a ${state.p1} a los ojos y dile algo sincero que te guste de él. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 40s para observar o investigar y decirle a ${state.p1} algo sincero que te guste. ¡Prohibido repetir!`;
       } else if (slice.type === 'question') {
         tag.innerText = `⚡ Pregunta Rápida (Fase ${state.currentPhase})`;
         title.innerText = `Responde con la verdad`;
@@ -1271,10 +1271,10 @@
       } else if (slice.type === 'flag') {
         tag.innerText = `🚩 Mi Red Flag`;
         title.innerText = `Confesión sin filtro`;
-        desc.innerText = `Confiesa en 7 segundos un defecto real tuyo o una manía que a los demás suele desesperarles.`;
+        desc.innerText = `Tienes 40s para confesar un defecto real tuyo o una manía que a los demás suele desesperarles.`;
       }
 
-      startCountdown('timer-circle-progress', 'timer-number', 7, () => {
+      startCountdown('timer-circle-progress', 'timer-number', 40, () => {
         sound.playBuzzer();
         sound.vibrate(80);
       });
@@ -1326,7 +1326,7 @@
 
     function setupDefenseScreen() {
       showScreen('screen-defense');
-      startCountdown('defense-circle-progress', 'defense-number', 10, () => {
+      startCountdown('defense-circle-progress', 'defense-number', 40, () => {
         sound.playBuzzer();
         sound.vibrate(80);
       });
@@ -1421,8 +1421,8 @@
     document.getElementById('btn-start-game').addEventListener('click', () => {
       sound.init();
       sound.playSuccess();
-      state.p1 = document.getElementById('input-p1').value.trim() || 'Camilo';
-      state.p2 = document.getElementById('input-p2').value.trim() || 'Nani';
+      state.p1 = document.getElementById('input-p1').value.trim() || 'Jugador 1';
+      state.p2 = document.getElementById('input-p2').value.trim() || 'Jugador 2';
       document.getElementById('modal-p1').value = state.p1;
       document.getElementById('modal-p2').value = state.p2;
 
