@@ -126,31 +126,48 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       background: rgba(20, 15, 28, 0.7);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .phase-badge {
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: rgba(255, 51, 102, 0.15);
-      border: 1.5px solid var(--primary);
-      color: var(--primary);
-      display: flex;
+    .level-select-wrap {
+      position: relative;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
     }
 
-    .phase-badge:active {
-      transform: scale(0.95);
+    .level-select-pill {
+      appearance: none;
+      -webkit-appearance: none;
+      background: rgba(52, 211, 153, 0.15);
+      border: 1.5px solid #34d399;
+      color: #34d399;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.5px;
+      padding: 6px 26px 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      user-select: none;
+      font-family: inherit;
+    }
+
+    .level-select-pill:active {
+      transform: scale(0.96);
+    }
+
+    .level-select-pill option {
+      background: #141726;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px;
     }
 
     .level-hold-btn {
@@ -733,10 +750,15 @@
 
   <!-- Tension Progression Bar -->
   <div class="tracker-bar" id="tracker-bar" style="display: none;">
-    <div class="phase-badge" id="phase-badge" title="Toca para cambiar de nivel">
-      <span>🌱</span> <span id="phase-text">Nivel 1: Rompehielo</span>
+    <div class="level-select-wrap">
+      <select id="select-level-quick" class="level-select-pill" title="Seleccionar nivel directamente">
+        <option value="1">🌱 Nivel 1: Rompehielo</option>
+        <option value="2">✨ Nivel 2: Confianza</option>
+        <option value="3">🥂 Nivel 3: Química</option>
+        <option value="4">🌙 Nivel 4: Cómplices</option>
+      </select>
     </div>
-    <button class="level-hold-btn" id="btn-toggle-hold" title="Sostener nivel actual o cambiar de ritmo">
+    <button class="level-hold-btn" id="btn-toggle-hold" title="Fijar nivel o modo automático">
       <span id="hold-icon">🔓</span> <span id="hold-text">Auto</span>
     </button>
     <div class="phase-meter">
@@ -1386,16 +1408,26 @@
       };
 
       const cur = names[state.currentPhase] || names[1];
-      badge.innerHTML = `<span>${cur.emoji}</span> <span>${cur.name}</span>`;
-      badge.style.borderColor = cur.color;
-      badge.style.color = cur.color;
-      badge.style.background = cur.color + '22';
+      const selectPill = document.getElementById('select-level-quick');
+      if (selectPill) {
+        selectPill.value = state.currentPhase;
+        selectPill.style.borderColor = cur.color;
+        selectPill.style.color = cur.color;
+        selectPill.style.background = cur.color + '22';
+        selectPill.style.backgroundImage = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='${encodeURIComponent(cur.color)}' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`;
+      }
+      if (badge) {
+        badge.innerHTML = `<span>${cur.emoji}</span> <span>${cur.name}</span>`;
+        badge.style.borderColor = cur.color;
+        badge.style.color = cur.color;
+        badge.style.background = cur.color + '22';
+      }
 
       // UI state for lock/hold button
       if (state.isLevelLocked) {
         if (holdBtn) holdBtn.classList.add('locked');
         if (holdIcon) holdIcon.innerText = '🔒';
-        if (holdText) holdText.innerText = `Fijo N${state.currentPhase}`;
+        if (holdText) holdText.innerText = 'Fijo';
         if (modalStatus) modalStatus.innerText = `Modo Sostenido (Fijo en Nivel ${state.currentPhase})`;
         if (modalIcon) modalIcon.innerText = '🔒';
       } else {
@@ -1872,10 +1904,21 @@
 
     // Level Control & Hold Listeners
     const btnToggleHold = document.getElementById('btn-toggle-hold');
-    const phaseBadge = document.getElementById('phase-badge');
+    const selectLevelQuick = document.getElementById('select-level-quick');
     const modalLevelControl = document.getElementById('modal-level-control');
     const btnCloseLevelControl = document.getElementById('btn-close-level-control');
     const btnToggleAutoHold = document.getElementById('btn-toggle-auto-hold');
+
+    if (selectLevelQuick) {
+      selectLevelQuick.addEventListener('change', (e) => {
+        const chosen = parseInt(e.target.value, 10);
+        state.currentPhase = chosen;
+        state.isLevelLocked = true; // Auto-fijar el nivel al seleccionarlo a mano
+        sound.playSuccess();
+        sound.vibrate([40, 20, 40]);
+        updateTrackerUI();
+      });
+    }
 
     if (btnToggleHold) {
       btnToggleHold.addEventListener('click', (e) => {
@@ -1884,13 +1927,6 @@
         sound.playTick();
         sound.vibrate(30);
         updateTrackerUI();
-      });
-    }
-
-    if (phaseBadge) {
-      phaseBadge.addEventListener('click', () => {
-        sound.playTick();
-        modalLevelControl.classList.add('open');
       });
     }
 
