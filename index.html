@@ -1041,11 +1041,14 @@
         "El apodo secreto: Acércate al oído de tu acompañante y susúrrale el apodo más cursi o ridículo que le pondrías si fueran novios de hace años."
       ],
       3: [
-        "Dar un beso suave y discreto en el cuello sin que nadie del lugar se dé cuenta.",
-        "Apoyar tu mano sobre la pierna del otro debajo de la mesa durante los próximos 2 turnos.",
-        "Hacerle cariñito en la nuca al otro por 30 segundos continuos.",
-        "Mostrar en tu celular (por 5 segundos) la foto tuya donde te sientas más sexy.",
-        "Confesar al oído qué parte de tu cuerpo te encanta que te consientan."
+        "Galería sexy: Abre tu celular y muéstrale a tu acompañante durante 5 segundos la foto donde te veas más atrevido/a o atractivo/a sin tapar nada.",
+        "Pregunta íntima sin filtro: Responde con la verdad absoluta a una pregunta íntima o atrevida que te haga tu acompañante en este instante.",
+        "Radiografía de prendas: Describe en voz baja y con detalle qué prendas o ropa interior llevas puestas debajo de lo visible.",
+        "Respiración en el oído: Acerca tus labios a 2 centímetros de la oreja o cuello de tu acompañante y respira despacio durante 10 segundos en silencio.",
+        "Masaje de hombros: Dale un masaje firme y relajante a tu acompañante en los hombros y la nuca durante 30 segundos continuos.",
+        "El trago de castigo: Tómate un trago largo de un solo golpe (un cuarto de tu vaso) mientras sostienes la mirada fija a los ojos de tu acompañante.",
+        "Mensaje sin censura: Escribe en un mensaje privado de WhatsApp o en una servilleta qué pensamiento atrevido o íntimo te inspira tu acompañante hoy.",
+        "Mano en el muslo: Apoya tu mano abierta sobre el muslo de tu acompañante por debajo de la mesa y mantenla ahí durante todo el siguiente turno."
       ],
       4: [
         "Mostrar por 2 segundos un detalle oculto de tu ropa o un lunar escondido discretamente.",
@@ -1069,7 +1072,7 @@
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v3')) || DEFAULT_DARES,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v4')) || DEFAULT_DARES,
       usedQuestions: new Set(),
       usedDares: new Set()
     };
@@ -1405,7 +1408,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v3', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v4', JSON.stringify(state.customDares));
       renderCustomDaresList();
     };
 
@@ -1508,7 +1511,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v3', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v4', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       sound.playSuccess();
@@ -1518,7 +1521,7 @@
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
       if (confirm('¿Restablecer todas las penitencias a las originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v3');
+        localStorage.removeItem('ruleta_dares_v4');
         renderCustomDaresList();
         sound.playTick();
       }
