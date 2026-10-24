@@ -144,6 +144,41 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .phase-badge:active {
+      transform: scale(0.95);
+    }
+
+    .level-hold-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-muted);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .level-hold-btn:active {
+      transform: scale(0.95);
+    }
+
+    .level-hold-btn.locked {
+      background: rgba(251, 191, 36, 0.2);
+      border-color: #fbbf24;
+      color: #fbbf24;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
     }
 
     .phase-meter {
@@ -677,13 +712,16 @@
 
   <!-- Tension Progression Bar -->
   <div class="tracker-bar" id="tracker-bar" style="display: none;">
-    <div class="phase-badge" id="phase-badge">
+    <div class="phase-badge" id="phase-badge" title="Toca para cambiar de nivel">
       <span>🌱</span> <span id="phase-text">Nivel 1: Rompehielo</span>
     </div>
+    <button class="level-hold-btn" id="btn-toggle-hold" title="Sostener nivel actual o cambiar de ritmo">
+      <span id="hold-icon">🔓</span> <span id="hold-text">Auto</span>
+    </button>
     <div class="phase-meter">
       <div class="phase-fill" id="phase-fill"></div>
     </div>
-    <div class="rounds-counter" id="rounds-counter">Giro 0</div>
+    <div class="rounds-counter" id="rounds-counter">Retos 0/10</div>
   </div>
 
   <main>
@@ -972,6 +1010,51 @@
     </div>
   </div>
 
+  <!-- LEVEL CONTROL & HOLD MODAL -->
+  <div class="modal-backdrop" id="modal-level-control">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <div class="modal-title">🎛️ Control de Nivel y Ritmo</div>
+        <button class="close-btn" id="btn-close-level-control">✕</button>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4; margin-bottom: 16px;">
+        Controla el ritmo. Puedes <b>sostener el nivel actual</b> para no subir la intensidad, o <b>bajar las revoluciones</b> si quieres más tranquilidad.
+      </p>
+
+      <div class="input-group">
+        <label class="input-label">Modo de Avance</label>
+        <button id="btn-toggle-auto-hold" class="btn-primary" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; justify-content: space-between;">
+          <span style="display:flex; align-items:center; gap:8px;">
+            <span id="modal-hold-icon">🔓</span>
+            <span id="modal-hold-status">Modo Dinámico (Sube con retos)</span>
+          </span>
+          <span style="font-size: 12px; opacity: 0.8; text-decoration: underline;">Cambiar</span>
+        </button>
+      </div>
+
+      <div class="input-label" style="margin-top: 18px; margin-bottom: 10px;">Fijar a un nivel específico con un toque:</div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <button class="level-select-option" data-level="1" style="padding: 12px 14px; border-radius: 12px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3); color: #a7f3d0; text-align: left; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          <span>🌱 Nivel 1: Rompehielo</span>
+          <span style="font-size: 11px; opacity: 0.85;">Tranquilo &amp; Divertido</span>
+        </button>
+        <button class="level-select-option" data-level="2" style="padding: 12px 14px; border-radius: 12px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: #fde68a; text-align: left; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          <span>✨ Nivel 2: Confianza</span>
+          <span style="font-size: 11px; opacity: 0.85;">Cercanía &amp; Coqueteo</span>
+        </button>
+        <button class="level-select-option" data-level="3" style="padding: 12px 14px; border-radius: 12px; background: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.3); color: #c7d2fe; text-align: left; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          <span>🥂 Nivel 3: Química</span>
+          <span style="font-size: 11px; opacity: 0.85;">Tensión &amp; Contacto</span>
+        </button>
+        <button class="level-select-option" data-level="4" style="padding: 12px 14px; border-radius: 12px; background: rgba(255, 126, 103, 0.1); border: 1px solid rgba(255, 126, 103, 0.3); color: #fca5a5; text-align: left; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+          <span>🌙 Nivel 4: Cómplices</span>
+          <span style="font-size: 11px; opacity: 0.85;">Directo &amp; Privado</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     /* =========================================================
        AUDIO SYNTHESIZER (Web Audio API - Zero External Files)
@@ -1072,35 +1155,108 @@
 
     /* =========================================================
        DEFAULT DATABASE (Curated Questions & Dares)
+       50% Pícaras/Química • 50% Incómodas de Cita/Chistosas
        ========================================================= */
     const DEFAULT_QUESTIONS = {
       1: [
-        "¿Cuál fue el primer detalle que notaste de mí cuando llegué?",
-        "Si tuvieras que describirme con una sola palabra hoy, ¿cuál sería?",
-        "¿Qué música te relaja cuando estás en un día pesado?",
-        "¿Eres más de planes tranquilos de noche o de aventura de día?",
-        "¿Qué comida te hace romper cualquier dieta sin pensarlo?"
+        // 50% Incómodas de Cita / Chistosas
+        "¿Cuál es la peor mentira que has dicho en una primera cita para salir corriendo de ahí?",
+        "¿Qué costumbre tuya en casa espantaría a una visita formal o a una pareja en la primera semana?",
+        "¿Cuál ha sido tu compra más inútil, impulsiva y ridícula a las 2 de la mañana por internet?",
+        "¿Qué red flag perdonarías casi sin dudar solo si la persona es absurdamente atractiva?",
+        "¿Qué es lo más vergonzoso que te ha pasado en un bar o restaurante frente a todo el mundo?",
+        "Si tu expareja tuviera que escribir una reseña de ti de 1 estrella en Google, ¿qué queja pondría?",
+        "¿Cuál es tu gusto culposo de música o series que jamás admites frente a desconocidos?",
+        "¿Qué comida deliciosa jamás comerías en una primera cita por miedo a un desastre?",
+        "¿Alguna vez has fingido una llamada de emergencia o un mensaje para zafarte de un plan aburrido?",
+        // 50% Pícaras / Coquetas / Primer Impacto
+        "¿Cuál fue el primer detalle exacto que miraste en mí cuando nos encontramos hoy?",
+        "¿Te fijas primero en los labios, la mirada o la vibra general al conocer a alguien?",
+        "Si tuvieras que describirme con tres adjetivos coquetos ahora mismo, ¿cuáles serían?",
+        "¿Qué tipo de perfume o aroma en una persona te hace girar la cabeza de inmediato en la calle?",
+        "¿Prefieres que en una primera cita la otra persona sea tímida o que vaya directo al grano?",
+        "¿Qué gesto o movimiento sutil de alguien te parece irresistible sin que se dé cuenta?",
+        "¿Qué tan fácil es hacerte sonrojar o tienes cara de póker profesional?",
+        "¿Qué prenda o detalle de lo que llevas puesto hoy te hace sentir más atractiva/o o segura/o?"
       ],
       2: [
-        "¿Qué gesto o mirada de alguien te desarma de inmediato?",
-        "¿Te consideras una persona fácil de intimidar o tienes buen autocontrol?",
-        "¿Cuál ha sido la situación más loca o espontánea que has vivido en una cita?",
-        "¿Qué perfume o aroma te parece magnético en una persona?",
-        "¿Eres de las que toma la iniciativa o prefieres que te lleven el paso?"
+        // 50% Incómodas de Cita / Chistosas
+        "¿Qué es lo primero y más raro que sueles stalkear en redes antes de salir con alguien nuevo?",
+        "¿Cuál ha sido el mensaje o audio más comprometedor que enviaste por error al chat equivocado?",
+        "¿Qué es lo más cringe o ridículo que alguien ha intentado hacer para impresionarte en una cita?",
+        "¿Qué manía o TOC tienes que te hace parecer un poquito desquiciada/o si alguien vive contigo?",
+        "¿Alguna vez te has quedado dormida/o en una cita o en el cine con alguien? Cuenta la verdad.",
+        "¿Cuál ha sido el apodo más cursi o ridículo que has usado o te han puesto en una relación?",
+        "¿Qué mentira piadosa dijiste en tu perfil de citas o en redes que no es 100% real?",
+        "¿Has tenido alguna cita tan desastrosa que ahora te parece una anécdota de comedia stand-up?",
+        // 50% Pícaras / Coquetas / Tensión Sutil
+        "¿Qué gesto o mirada de alguien te acelera el pulso en menos de 3 segundos?",
+        "¿Te consideras una persona fácil de tentar o tu fuerza de voluntad es indestructible?",
+        "¿Cuál ha sido el lugar más inesperado o arriesgado donde te han dado un beso inolvidable?",
+        "¿Eres de las personas que espera a que den el primer paso o prefieres tomar el control?",
+        "¿Qué te parece más seductor: que te hablen bajito al oído o que te sostengan la mirada sin hablar?",
+        "¿Qué parte de tu personalidad sueles ocultar al principio porque es demasiado intensa?",
+        "¿Qué prenda o accesorio consideras tu arma secreta para una noche especial?",
+        "¿Qué estás pensando de mí en este instante pero todavía te da un poquito de pena decir?"
       ],
       3: [
-        "¿Qué prenda consideras que es tu arma secreta para sentirte atractiva/o?",
-        "¿Hace cuánto tiempo no te dabas una escapada como la de hoy?",
-        "¿Qué te parece más seductor: la mirada o la forma en que te hablan al oído?",
-        "¿Qué es lo primero que miras en alguien cuando hay tensión en el aire?",
-        "Si pudieras pedir un deseo secreto ahora mismo, ¿cuál sería?"
+        // 50% Incómodas / Chistosas / Pícaras
+        "¿Cuál ha sido tu momento más incómodo o gracioso en la intimidad del que hoy no paras de reírte?",
+        "¿Qué excusa absurda o excéntrica has puesto para irte de la casa de alguien a las 3 a.m.?",
+        "¿Alguna vez te han pillado en una situación muy comprometedora? ¿Quién fue y qué cara puso?",
+        "¿Qué canción o sonido arruinaría por completo un momento romántico o apasionado para ti?",
+        "¿Qué es lo más descarado que has hecho en público creyendo que nadie te estaba viendo?",
+        "¿Cuál ha sido la propuesta más rara o inesperada que te han hecho por mensaje directo?",
+        "¿Alguna vez has tenido una fantasía con alguien que sabes que está totalmente prohibido?",
+        // 50% Pícaras / Tensión Alta / Físicas
+        "¿Qué te despierta más ganas: la forma en que te tocan las manos o cómo te respiran cerca del cuello?",
+        "¿Cuál es tu zona más sensible o punto débil que si te tocan pierdes la concentración?",
+        "¿Qué pensamiento pícaro o atrevido te pasó por la mente mirándome hace un rato?",
+        "¿Qué te parece más provocador: lo que se insinúa por debajo de la ropa o lo que se dice con palabras?",
+        "¿Qué tipo de besos son tus favoritos: lentos y suaves o intensos y con mordida?",
+        "¿Qué detalle de mi cuerpo o de mi forma de hablar te ha llamado más la atención hoy?",
+        "¿Si tuviéramos 10 minutos a solas en este bar sin testigos, qué haríamos?"
       ],
       4: [
-        "¿Qué es lo más atrevido que has hecho bajo absoluta reserva?",
-        "¿Qué te hace perder los frenos por completo cuando estás a solas?",
-        "¿Qué parte de tu cuerpo es tu punto débil absoluto?",
-        "¿Prefieres los besos lentos y suaves o apasionados y firmes?",
-        "¿Qué estás pensando en este preciso instante mientras me miras?"
+        // 50% Incómodas / Chistosas / Sin Filtro
+        "¿Qué es lo primero que haces a la mañana siguiente cuando una noche sale increíblemente bien?",
+        "¿Cuál ha sido la mentira más descarada que has inventado para escaparte a ver a alguien?",
+        "¿Qué es lo que más te desconcentra o te da risa en medio de un momento súper íntimo?",
+        "¿Qué secreto picante tuyo sorprendería a cualquiera que te conozca en tu faceta seria?",
+        "¿Cuál es tu límite absoluto en una cita que jamás cruzarías en la primera noche?",
+        // 50% Pícaras / Deseo / Privadas
+        "¿Qué te hace perder el control absoluto cuando estás a solas con alguien que te atrae?",
+        "¿Qué ropa interior llevas puesta en este momento y por qué la elegiste para hoy?",
+        "¿Prefieres que esta noche termine en un beso de despedida o en un lugar mucho más privado?",
+        "¿Qué es lo más atrevido que te gustaría que intentáramos una vez salgamos de este lugar?",
+        "¿Qué te gustaría que te susurrara al oído si estuviéramos completamente solos en este instante?"
+      ]
+    };
+
+    // Preguntas Evergreen (Reutilizables con respuestas vivas que cambian con la noche)
+    const EVERGREEN_QUESTIONS = {
+      1: [
+        "⭐️ Del 1 al 10, ¿qué tan acertada fue la primera impresión que tuviste de mí frente a cómo soy ahora?",
+        "⭐️ ¿Qué detalle nuevo o expresión mía acabas de notar en estos últimos minutos de charla?",
+        "⭐️ Si tuvieras que calificar la vibra y el ambiente de esta mesa en este instante, ¿qué nota le pones?",
+        "⭐️ Si tuvieras que mandarle un sticker de WhatsApp a tu mejor amigo/a sobre cómo va esta cita, ¿cuál enviarías?"
+      ],
+      2: [
+        "⭐️ Si tuvieras que enviarle un audio de 5 segundos a tu confidente sobre esta cita ahora mismo, ¿qué le dirías?",
+        "⭐️ ¿Qué nivel de química del 1 al 10 sientes que tenemos en esta mesa en este preciso momento?",
+        "⭐️ ¿Qué pensamiento curioso se te cruzó por la cabeza hace un instante mientras me escuchabas hablar?",
+        "⭐️ Mirándome a los ojos: ¿qué crees que se me pasa por la mente cuando te quedas callada/o mirándome?"
+      ],
+      3: [
+        "⭐️ Mírame a los ojos durante 5 segundos: ¿qué crees que se me está antojando hacer contigo ahora mismo?",
+        "⭐️ En este preciso momento con las bebidas encima, ¿qué tan tentador te parece seguir la noche?",
+        "⭐️ Dime la verdad: ¿sientes que la tensión en esta mesa ha subido o bajado desde que empezamos a jugar?",
+        "⭐️ Si fueras a pedirme un favor atrevido antes de pedir la cuenta, ¿cuál sería?"
+      ],
+      4: [
+        "⭐️ Si nos paramos de esta mesa en 2 minutos, ¿cuál es el primer plan que se te viene a la mente?",
+        "⭐️ Di la verdad absoluta mirándome fijamente: ¿te estás aguantando las ganas de darme un beso en este instante?",
+        "⭐️ Si fueras tú quien toma la decisión final ahora mismo, ¿pedimos otro trago o nos vamos a un sitio privado?"
       ]
     };
 
@@ -1111,7 +1267,9 @@
         "Selfie divertida: Tómense o tómate una foto haciendo el gesto gracioso que tu acompañante elija.",
         "Lectura de mano: Toma la mano de tu acompañante con ambas manos por 20 segundos y adivínale un futuro divertido.",
         "Reto de perfil: Sube una foto espontánea tomada en la mesa a tu perfil por lo que reste de la cita.",
-        "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 teorías curiosas sobre su personalidad."
+        "Lectura en frío: Mira a los ojos a tu acompañante y lanza 2 teorías curiosas sobre su personalidad.",
+        "Brindis de miradas: Choquen sus vasos y beban un sorbo sosteniendo la mirada fijamente sin decir una palabra.",
+        "Cumplido de cerca: Mira un rasgo específico del rostro de tu acompañante y dile en voz baja por qué te llama la atención."
       ],
       2: [
         "Mano entrelazada: Toma la mano de tu acompañante con los dedos entrelazados sobre la mesa durante 1 minuto mientras siguen charlando.",
@@ -1120,7 +1278,9 @@
         "Secreto al oído: Acércate a su oído y cuéntale en voz baja qué fue lo primero que pensaste al verlo/a llegar hoy.",
         "Beso en la mejilla: Dale un beso suave y lento en la mejilla, quedándote cerquita durante 3 segundos.",
         "Catador de suavidad: Toca con dos dedos su mejilla o antebrazo y da una reseña exagerada calificando su piel.",
-        "El apodo secreto: Susúrrale al oído el apodo más tierno o gracioso que le pondrías si fueran pareja."
+        "El apodo secreto: Susúrrale al oído el apodo más tierno o gracioso que le pondrías si fueran pareja.",
+        "Acomodar detalle: Acomódale con delicadeza un mechón de cabello o el cuello de su camisa tomándote tu tiempo.",
+        "Caricia de palma: Toma su mano y desliza lentamente la yema de tu dedo por el centro de su palma por 20 segundos."
       ],
       3: [
         "Foto favorita: Abre tu galería y muéstrale durante 5 segundos una foto tuya donde sientas que te ves muy bien o atractiva/o.",
@@ -1130,7 +1290,9 @@
         "Masaje relajante: Dale un masaje suave en los hombros y la nuca a tu acompañante durante 30 segundos.",
         "Brindis de mirada: Toma un buen sorbo de tu bebida sosteniendo la mirada fija en los ojos de tu acompañante.",
         "Nota secreta: Escríbele por WhatsApp o en una servilleta algo que te dé curiosidad o ganas de intentar con él/ella hoy.",
-        "Contacto cómplice: Apoya tu mano suavemente sobre la rodilla o pierna de tu acompañante debajo de la mesa durante el siguiente turno."
+        "Contacto cómplice: Apoya tu mano suavemente sobre la rodilla o pierna de tu acompañante debajo de la mesa durante el siguiente turno.",
+        "Susurro provocador: Acércate a su oreja y susúrrale qué harías con él/ella si las luces del bar se apagaran 30 segundos.",
+        "Juego de labios: Mírale fijamente los labios a tu acompañante durante 10 segundos y luego muérdete el labio suavemente."
       ],
       4: [
         "Secreto en el espejo: Ve un momento al baño, tómate una foto coqueta en el espejo mostrando un detalle discreto de tu prenda interior y envíasela por WhatsApp.",
@@ -1139,6 +1301,8 @@
         "Toque travieso: Con total disimulo (al acomodarte o bajo la mesa), dale una caricia o apretón juguetón en la cintura o cadera por 5 segundos.",
         "Permiso concedido: Con una sola mano y mirándose a los ojos, desabotónale un botón de la camisa o el primer botón del pantalón bajo la mesa.",
         "Beso cómplice (20 segundos): Toma suavemente su rostro con tus manos y dense un beso lento y sin prisa.",
+        "Caricia bajo la chaqueta: Desliza tu mano por la parte baja de su espalda bajo la chaqueta o camisa durante 15 segundos.",
+        "Mordisco suave: Acércate a su cuello o lóbulo de la oreja y dale un mordisquito suave con total sutileza.",
         "ALERTA_PRIVADA"
       ]
     };
@@ -1159,6 +1323,7 @@
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
+      isLevelLocked: false,
       customDares: JSON.parse(localStorage.getItem('ruleta_dares_v7')) || DEFAULT_DARES,
       usedQuestions: new Set(),
       usedDares: new Set(),
@@ -1186,6 +1351,11 @@
       const text = document.getElementById('phase-text');
       const fill = document.getElementById('phase-fill');
       const counter = document.getElementById('rounds-counter');
+      const holdBtn = document.getElementById('btn-toggle-hold');
+      const holdIcon = document.getElementById('hold-icon');
+      const holdText = document.getElementById('hold-text');
+      const modalStatus = document.getElementById('modal-hold-status');
+      const modalIcon = document.getElementById('modal-hold-icon');
 
       const names = {
         1: { name: 'Nivel 1: Rompehielo', emoji: '🌱', color: '#34d399' },
@@ -1199,6 +1369,21 @@
       badge.style.borderColor = cur.color;
       badge.style.color = cur.color;
       badge.style.background = cur.color + '22';
+
+      // UI state for lock/hold button
+      if (state.isLevelLocked) {
+        if (holdBtn) holdBtn.classList.add('locked');
+        if (holdIcon) holdIcon.innerText = '🔒';
+        if (holdText) holdText.innerText = `Fijo N${state.currentPhase}`;
+        if (modalStatus) modalStatus.innerText = `Modo Sostenido (Fijo en Nivel ${state.currentPhase})`;
+        if (modalIcon) modalIcon.innerText = '🔒';
+      } else {
+        if (holdBtn) holdBtn.classList.remove('locked');
+        if (holdIcon) holdIcon.innerText = '🔓';
+        if (holdText) holdText.innerText = 'Auto';
+        if (modalStatus) modalStatus.innerText = 'Modo Dinámico (Sube con retos)';
+        if (modalIcon) modalIcon.innerText = '🔓';
+      }
 
       const pct = Math.min(100, Math.round((state.daresCompleted / state.totalDaresToExit) * 100));
       fill.style.width = Math.max(10, pct) + '%';
@@ -1366,12 +1551,81 @@
       });
     }
 
+    // Dynamic Generators & Evergreen Recycling
+    function generateDynamicQuestion(phase) {
+      const evergreens = EVERGREEN_QUESTIONS[phase] || EVERGREEN_QUESTIONS[1];
+      if (Math.random() < 0.5 && evergreens.length > 0) {
+        return evergreens[Math.floor(Math.random() * evergreens.length)];
+      }
+
+      // Procedural contextual question generator: 50% awkward/funny • 50% spicy/flirty
+      const isFunny = Math.random() < 0.5;
+
+      const funnyDilemmas = [
+        "Confesión espontánea: Si tuvieras que contar la anécdota más vergonzosa de tu vida amorosa en 30 segundos, ¿cuál sería?",
+        "Dilema absurdo: ¿Preferirías que tu pareja revise todo tu historial de búsqueda de Google o que revise tu galería de fotos?",
+        "Sinceridad pura: ¿Qué manía tienes al salir que la gente que apenas te conoce consideraría un poco rara?",
+        "Test de red flags: Si tuvieras que admitir una red flag tuya con una sonrisa, ¿cuál dirías que es?",
+        "Pregunta incómoda: ¿Alguna vez has dicho 'me encantas' o 'te quiero' solo por compromiso o presión del momento?",
+        "Situación de bar: Si en este instante se derramara la cerveza en la mesa, ¿quién de los dos crees que reaccionaría peor?"
+      ];
+
+      const spicyDilemmas = [
+        "Curiosidad atrevida: Mirándome fijamente ahora mismo, ¿qué es lo primero que se te pasa por la cabeza?",
+        "Tensión en la mesa: En una escala del 1 al 10, ¿qué tan magnética sientes la conexión entre los dos hoy?",
+        "Pregunta sin filtros: ¿Qué gesto o caricia consideras que es tu debilidad absoluta cuando alguien te atrae?",
+        "Secreto de la noche: Si tuvieras que pedirme un deseo o reto en secreto ahora mismo, ¿qué me pedirías?",
+        "Química pura: ¿Sientes que la química entre nosotros es más mental o más física en este punto de la cita?",
+        "Complicidad: Si nos fuéramos de este lugar en los próximos 10 minutos, ¿a qué plan o lugar te gustaría ir?"
+      ];
+
+      const pool = isFunny ? funnyDilemmas : spicyDilemmas;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function generateDynamicDare(phase) {
+      const dynamicDaresByPhase = {
+        1: [
+          "Brindis silencioso: Tomen un trago mirándose a los ojos fijamente sin parpadear ni reírse durante 10 segundos.",
+          "El piropo inesperado: Mira las manos de tu acompañante, tómalas suavemente y dile qué sensación te transmiten.",
+          "Teoría curiosa: Mira a tu acompañante y dile qué tipo de persona crees que es cuando está enamorada/o.",
+          "Contacto sutil: Apoya tu mano sobre el antebrazo de tu acompañante durante 20 segundos mientras siguen charlando."
+        ],
+        2: [
+          "Acomodar detalle: Con calma y mirándolo/a fijamente, acomódale un mechón de cabello o el cuello de su camisa.",
+          "Caricia de palma: Toma su mano y desliza suavemente la yema de tu dedo por su muñeca y palma por 20 segundos.",
+          "Susurro divertido: Acércate a 5 centímetros de su oreja y susúrrale un secreto o apodo gracioso.",
+          "Roce de rodillas: Mantengan las rodillas en contacto por debajo de la mesa durante la siguiente ronda."
+        ],
+        3: [
+          "Masaje en la nuca: Dale un masaje suave y relajante en la nuca y hombros a tu acompañante durante 30 segundos.",
+          "Juego de labios: Mírale fijamente los labios a tu acompañante por 10 segundos en silencio y luego muerde tu labio.",
+          "Respiración cercana: Acerca tu rostro a 3 centímetros de su cuello y respira lento durante 10 segundos sin tocar la piel.",
+          "Mano al muslo: Apoya tu mano firme sobre su pierna por debajo de la mesa hasta el siguiente giro."
+        ],
+        4: [
+          "Beso lento en la mejilla: Dale un beso suave y prolongado en la mejilla muy cerca de la comisura de sus labios.",
+          "Beso en el cuello: Acércate con total disimulo y dale un beso suave y pausado en el cuello por 5 segundos.",
+          "Caricia bajo la ropa: Desliza tu mano por la parte baja de su espalda bajo su chaqueta o camisa por 15 segundos.",
+          "Toque cómplice: Pasa tu mano disimuladamente por su cadera o cintura por 5 segundos."
+        ]
+      };
+
+      const list = dynamicDaresByPhase[phase] || dynamicDaresByPhase[1];
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
     function getRandomQuestion() {
       const list = DEFAULT_QUESTIONS[state.currentPhase] || DEFAULT_QUESTIONS[1];
       const available = list.filter(q => !state.usedQuestions.has(q));
-      const pool = available.length > 0 ? available : list;
-      const selected = pool[Math.floor(Math.random() * pool.length)];
-      state.usedQuestions.add(selected);
+      
+      let selected = '';
+      if (available.length > 0) {
+        selected = available[Math.floor(Math.random() * available.length)];
+        state.usedQuestions.add(selected);
+      } else {
+        selected = generateDynamicQuestion(state.currentPhase);
+      }
       return `"${selected}"`;
     }
 
@@ -1439,8 +1693,13 @@
     function getRandomDare() {
       const list = state.customDares[state.currentPhase] || state.customDares[1];
       const available = list.filter(d => !state.usedDares.has(d));
-      const pool = available.length > 0 ? available : list;
-      const chosen = pool[Math.floor(Math.random() * pool.length)];
+      
+      let chosen = '';
+      if (available.length > 0) {
+        chosen = available[Math.floor(Math.random() * available.length)];
+      } else {
+        chosen = generateDynamicDare(state.currentPhase);
+      }
 
       if (chosen === 'ALERTA_PRIVADA') {
         showPrivateAlert();
@@ -1566,27 +1825,80 @@
 
       const targetInPhase = state.daresPerPhase[state.currentPhase] || 2;
 
-      // Advance phase if reached threshold
-      if (state.phaseDaresCount[state.currentPhase] >= targetInPhase) {
-        if (state.currentPhase < 4) {
-          state.currentPhase++;
-          sound.playGong();
-          sound.vibrate([100, 50, 100]);
-        } else {
+      // Only advance phase and check exit alert if level is NOT locked!
+      if (!state.isLevelLocked) {
+        if (state.phaseDaresCount[state.currentPhase] >= targetInPhase) {
+          if (state.currentPhase < 4) {
+            state.currentPhase++;
+            sound.playGong();
+            sound.vibrate([100, 50, 100]);
+          } else {
+            showPrivateAlert();
+            return;
+          }
+        }
+
+        if (state.daresCompleted >= state.totalDaresToExit) {
           showPrivateAlert();
           return;
         }
-      }
-
-      if (state.daresCompleted >= state.totalDaresToExit) {
-        showPrivateAlert();
-        return;
       }
 
       updateTrackerUI();
       sound.playSuccess();
       showScreen('screen-wheel');
     }
+
+    // Level Control & Hold Listeners
+    const btnToggleHold = document.getElementById('btn-toggle-hold');
+    const phaseBadge = document.getElementById('phase-badge');
+    const modalLevelControl = document.getElementById('modal-level-control');
+    const btnCloseLevelControl = document.getElementById('btn-close-level-control');
+    const btnToggleAutoHold = document.getElementById('btn-toggle-auto-hold');
+
+    if (btnToggleHold) {
+      btnToggleHold.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.isLevelLocked = !state.isLevelLocked;
+        sound.playTick();
+        sound.vibrate(30);
+        updateTrackerUI();
+      });
+    }
+
+    if (phaseBadge) {
+      phaseBadge.addEventListener('click', () => {
+        sound.playTick();
+        modalLevelControl.classList.add('open');
+      });
+    }
+
+    if (btnCloseLevelControl) {
+      btnCloseLevelControl.addEventListener('click', () => {
+        modalLevelControl.classList.remove('open');
+      });
+    }
+
+    if (btnToggleAutoHold) {
+      btnToggleAutoHold.addEventListener('click', () => {
+        state.isLevelLocked = !state.isLevelLocked;
+        sound.playTick();
+        sound.vibrate(30);
+        updateTrackerUI();
+      });
+    }
+
+    document.querySelectorAll('.level-select-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedLevel = parseInt(btn.dataset.level, 10);
+        state.currentPhase = selectedLevel;
+        state.isLevelLocked = true; // Hold at this chosen level
+        sound.playSuccess();
+        sound.vibrate([50, 30, 50]);
+        updateTrackerUI();
+        modalLevelControl.classList.remove('open');
+      });
+    });
 
     // Secret Vote Listeners
     document.getElementById('btn-start-vote').addEventListener('click', () => {
