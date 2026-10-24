@@ -700,12 +700,12 @@
               <span class="time">1 Hora</span>
               <span class="tag">Express</span>
             </div>
-            <div class="duration-btn selected" data-hours="2">
+            <div class="duration-btn" data-hours="2">
               <span class="emoji">🔥</span>
               <span class="time">2 Horas</span>
               <span class="tag">Estándar</span>
             </div>
-            <div class="duration-btn" data-hours="3">
+            <div class="duration-btn selected" data-hours="3">
               <span class="emoji">⏳</span>
               <span class="time">3 Horas</span>
               <span class="tag">Gradual</span>
@@ -825,18 +825,75 @@
       </div>
     </div>
 
-    <!-- SCREEN 5: PRIVATE LEVEL UNLOCKED ALERT -->
+    <!-- SCREEN 5: PRIVATE LEVEL UNLOCKED / SECRET VOTE -->
     <div class="screen" id="screen-private-alert">
       <div class="alert-card">
-        <div class="alert-icon">⚠️</div>
-        <h2 class="alert-title">Nivel Privado Desbloqueado</h2>
-        <p class="alert-desc">
-          Las penitencias de la siguiente fase están terminantemente prohibidas en lugares públicos.<br><br>
-          <b>Para continuar el juego y desbloquear el siguiente reto, deben pedir la cuenta de inmediato y trasladarse a un espacio 100% privado.</b>
-        </p>
-        <button class="btn-primary" id="btn-alert-ack" style="background: linear-gradient(135deg, #ff1744, #b71c1c);">
-          🤫 Pedir la cuenta y salir
-        </button>
+        
+        <!-- Step 1: Warning & Intro -->
+        <div id="vote-step-1">
+          <div class="alert-icon">⚠️</div>
+          <h2 class="alert-title">Nivel Privado Desbloqueado</h2>
+          <p class="alert-desc">
+            Las penitencias de la siguiente fase están terminantemente prohibidas en público.<br><br>
+            Para continuar, <b>ambos deben votar en secreto</b> si desean trasladarse a un espacio 100% privado y más cómodo.
+          </p>
+          <button class="btn-primary" id="btn-start-vote" style="background: linear-gradient(135deg, #ff1744, #b71c1c);">
+            🔒 COMENZAR VOTACIÓN SECRETA ➔
+          </button>
+        </div>
+
+        <!-- Step 2: Vote P2 (Ella) -->
+        <div id="vote-step-2" style="display: none;">
+          <div class="alert-icon">📱</div>
+          <h2 class="alert-title" id="vote-title-p2">Vota Jugador 2</h2>
+          <p class="alert-desc" id="vote-desc-p2">
+            Pásale el celular para que vote en secreto:<br><br>
+            ¿Quieres continuar el juego en un lugar privado y más cómodo?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn-green" id="btn-vote-p2-yes" style="padding: 16px; font-size: 16px;">
+              😏 SÍ, continuar en privado
+            </button>
+            <button class="btn-outline" id="btn-vote-p2-no" style="padding: 12px; font-size: 14px;">
+              ✋ NO, quedarnos acá
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Vote P1 (Camilo) -->
+        <div id="vote-step-3" style="display: none;">
+          <div class="alert-icon">🤫</div>
+          <h2 class="alert-title" id="vote-title-p1">Vota Jugador 1</h2>
+          <p class="alert-desc" id="vote-desc-p1">
+            ¡Voto registrado en secreto!<br>Devuélvele el celular a Jugador 1.<br><br>
+            ¿Tú también quieres continuar en un lugar privado?
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn-green" id="btn-vote-p1-yes" style="padding: 16px; font-size: 16px;">
+              😏 SÍ, continuar a solas
+            </button>
+            <button class="btn-outline" id="btn-vote-p1-no" style="padding: 12px; font-size: 14px;">
+              ✋ NO
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Verdict (¡Ambos dijeron que sí!) -->
+        <div id="vote-step-4" style="display: none;">
+          <div class="alert-icon" style="font-size: 50px;">🔥</div>
+          <h2 class="alert-title" style="color: #00e676; font-size: 22px; text-shadow: 0 0 15px rgba(0, 230, 118, 0.6);">
+            ¡AMBOS DIJERON QUE SÍ!
+          </h2>
+          <p class="alert-desc">
+            <b>Veredicto unánime de la Ruleta:</b><br>
+            El juego no se puede seguir jugando en el bar.<br><br>
+            <b>Pidan la cuenta de inmediato y trasládense a un espacio 100% privado para continuar el juego.</b>
+          </p>
+          <button class="btn-primary" id="btn-vote-finish" style="background: linear-gradient(135deg, #00c853, #009624); box-shadow: 0 0 25px rgba(0,230,118,0.5);">
+            🥂 Pedir la cuenta y salir ya
+          </button>
+        </div>
+
       </div>
     </div>
 
@@ -1053,6 +1110,7 @@
       ],
       4: [
         "Foto íntima en el baño: Debes ir al baño del lugar en este instante, tomarte una foto en el espejo mostrando tu ropa interior y enviársela de inmediato por WhatsApp a tu acompañante.",
+        "Foto íntima en el baño: Debes ir al baño del lugar en este instante, tomarte una foto en el espejo mostrando tu ropa interior y enviársela de inmediato por WhatsApp a tu acompañante.",
         "Beso clandestino en el cuello: Acércate disimuladamente y dale un beso lento y profundo en el cuello a tu acompañante sin que nadie en las otras mesas lo note.",
         "Mano a la nalga: Pasa tu mano con firmeza por debajo de la mesa o fingiendo acomodarte y apriétale la nalga a tu acompañante durante 5 segundos.",
         "Desabotonar pantalón: Desabotónale con una sola mano el primer botón del pantalón a tu acompañante y déjalo desabotonado.",
@@ -1067,34 +1125,36 @@
     const state = {
       p1: 'Jugador 1',
       p2: 'Jugador 2',
-      hours: 2,
+      hours: 3,
       spinsCount: 0,
+      daresCompleted: 0,
+      phaseDaresCount: { 1: 0, 2: 0, 3: 0, 4: 0 },
+      daresPerPhase: { 1: 2, 2: 2, 3: 2, 4: 1 },
+      totalDaresToExit: 7,
       currentPhase: 1,
-      targetSpinsForPrivate: 14,
       isSpinning: false,
       currentAngle: 0,
       activeTimer: null,
-      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v5')) || DEFAULT_DARES,
+      customDares: JSON.parse(localStorage.getItem('ruleta_dares_v6')) || DEFAULT_DARES,
       usedQuestions: new Set(),
-      usedDares: new Set()
+      usedDares: new Set(),
+      voteP1: null,
+      voteP2: null
     };
 
     // Calculate progression pace based on duration
     function updateProgressionPace() {
       if (state.hours === 1) {
-        state.targetSpinsForPrivate = 10; // Rapid
+        state.daresPerPhase = { 1: 1, 2: 1, 3: 1, 4: 1 };
+        state.totalDaresToExit = 4;
       } else if (state.hours === 2) {
-        state.targetSpinsForPrivate = 14; // Standard
+        state.daresPerPhase = { 1: 2, 2: 2, 3: 1, 4: 1 };
+        state.totalDaresToExit = 6;
       } else {
-        state.targetSpinsForPrivate = 18; // Gradual
+        state.daresPerPhase = { 1: 2, 2: 2, 3: 2, 4: 1 };
+        state.totalDaresToExit = 7;
       }
-    }
-
-    function calculatePhase() {
-      const p = Math.min(4, Math.floor((state.spinsCount / state.targetSpinsForPrivate) * 4) + 1);
-      state.currentPhase = p;
       updateTrackerUI();
-      return p;
     }
 
     function updateTrackerUI() {
@@ -1107,7 +1167,7 @@
         1: { name: 'Fase 1: Hielo', emoji: '🟢', color: '#00e676' },
         2: { name: 'Fase 2: Cercanía', emoji: '🟡', color: '#ffb84d' },
         3: { name: 'Fase 3: Tensión', emoji: '🟣', color: '#9933ff' },
-        4: { name: 'Fase 4: Picante', emoji: '🔴', color: '#ff1744' }
+        4: { name: 'Fase 4: Jaque Mate', emoji: '🔴', color: '#ff1744' }
       };
 
       const cur = names[state.currentPhase] || names[1];
@@ -1116,9 +1176,9 @@
       badge.style.color = cur.color;
       badge.style.background = cur.color + '22';
 
-      const pct = Math.min(100, Math.round((state.spinsCount / state.targetSpinsForPrivate) * 100));
+      const pct = Math.min(100, Math.round((state.daresCompleted / state.totalDaresToExit) * 100));
       fill.style.width = Math.max(10, pct) + '%';
-      counter.innerText = `Giro ${state.spinsCount} / ${state.targetSpinsForPrivate}`;
+      counter.innerText = `Reto ${state.daresCompleted}/${state.totalDaresToExit} (F${state.currentPhase}) • Giro ${state.spinsCount}`;
     }
 
     /* =========================================================
@@ -1236,13 +1296,7 @@
 
     function onSpinCompleted(slice) {
       state.spinsCount++;
-      calculatePhase();
-
-      // Check if Private Alert should trigger
-      if (state.spinsCount >= state.targetSpinsForPrivate) {
-        showPrivateAlert();
-        return;
-      }
+      updateTrackerUI();
 
       setTimeout(() => {
         setupTimerScreen(slice);
@@ -1346,10 +1400,10 @@
       const dareText = document.getElementById('dare-text');
 
       const phaseNames = {
-        1: 'Fase 1: Inocente',
+        1: 'Fase 1: Hielo',
         2: 'Fase 2: Cercanía',
         3: 'Fase 3: Tensión',
-        4: 'Fase 4: Picante'
+        4: 'Fase 4: Jaque Mate'
       };
 
       phaseTag.innerText = phaseNames[state.currentPhase] || 'Fase 1';
@@ -1377,6 +1431,10 @@
       showScreen('screen-private-alert');
       sound.playGong();
       sound.vibrate([100, 50, 100, 50, 200]);
+      document.getElementById('vote-step-1').style.display = 'block';
+      document.getElementById('vote-step-2').style.display = 'none';
+      document.getElementById('vote-step-3').style.display = 'none';
+      document.getElementById('vote-step-4').style.display = 'none';
     }
 
     /* =========================================================
@@ -1410,7 +1468,7 @@
 
     window.deleteCustomDare = function(phase, idx) {
       state.customDares[phase].splice(idx, 1);
-      localStorage.setItem('ruleta_dares_v5', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v6', JSON.stringify(state.customDares));
       renderCustomDaresList();
     };
 
@@ -1475,12 +1533,72 @@
     });
 
     document.getElementById('btn-dare-done').addEventListener('click', () => {
-      sound.playSuccess();
-      showScreen('screen-wheel');
+      completeDare();
     });
 
-    // Alert Ack
-    document.getElementById('btn-alert-ack').addEventListener('click', () => {
+    function completeDare() {
+      state.daresCompleted++;
+      state.phaseDaresCount[state.currentPhase] = (state.phaseDaresCount[state.currentPhase] || 0) + 1;
+
+      const targetInPhase = state.daresPerPhase[state.currentPhase] || 2;
+
+      // Advance phase if reached threshold
+      if (state.phaseDaresCount[state.currentPhase] >= targetInPhase) {
+        if (state.currentPhase < 4) {
+          state.currentPhase++;
+          sound.playGong();
+          sound.vibrate([100, 50, 100]);
+        } else {
+          showPrivateAlert();
+          return;
+        }
+      }
+
+      if (state.daresCompleted >= state.totalDaresToExit) {
+        showPrivateAlert();
+        return;
+      }
+
+      updateTrackerUI();
+      sound.playSuccess();
+      showScreen('screen-wheel');
+    }
+
+    // Secret Vote Listeners
+    document.getElementById('btn-start-vote').addEventListener('click', () => {
+      sound.playTick();
+      document.getElementById('vote-step-1').style.display = 'none';
+      document.getElementById('vote-step-2').style.display = 'block';
+      document.getElementById('vote-title-p2').innerText = `Vota ${state.p2}`;
+      document.getElementById('vote-desc-p2').innerHTML = `Pásale el celular a <b>${state.p2}</b> para que vote en secreto:<br><br>¿Quieres continuar el juego en un lugar privado y más cómodo?`;
+    });
+
+    function registerVoteP2(vote) {
+      state.voteP2 = vote;
+      sound.playTick();
+      sound.vibrate(30);
+      document.getElementById('vote-step-2').style.display = 'none';
+      document.getElementById('vote-step-3').style.display = 'block';
+      document.getElementById('vote-title-p1').innerText = `Vota ${state.p1}`;
+      document.getElementById('vote-desc-p1').innerHTML = `¡Voto registrado en secreto! 🤫<br>Devuélvele el celular a <b>${state.p1}</b>.<br><br>¿Tú también quieres continuar en un lugar privado?`;
+    }
+
+    document.getElementById('btn-vote-p2-yes').addEventListener('click', () => registerVoteP2(true));
+    document.getElementById('btn-vote-p2-no').addEventListener('click', () => registerVoteP2(false));
+
+    function registerVoteP1(vote) {
+      state.voteP1 = vote;
+      sound.playSuccess();
+      sound.vibrate([100, 50, 100, 50, 200]);
+      document.getElementById('vote-step-3').style.display = 'none';
+      document.getElementById('vote-step-4').style.display = 'block';
+    }
+
+    document.getElementById('btn-vote-p1-yes').addEventListener('click', () => registerVoteP1(true));
+    document.getElementById('btn-vote-p1-no').addEventListener('click', () => registerVoteP1(false));
+
+    document.getElementById('btn-vote-finish').addEventListener('click', () => {
+      sound.playSuccess();
       showScreen('screen-wheel');
     });
 
@@ -1513,7 +1631,7 @@
 
       if (!state.customDares[phase]) state.customDares[phase] = [];
       state.customDares[phase].unshift(text);
-      localStorage.setItem('ruleta_dares_v5', JSON.stringify(state.customDares));
+      localStorage.setItem('ruleta_dares_v6', JSON.stringify(state.customDares));
       document.getElementById('input-new-dare').value = '';
       renderCustomDaresList();
       sound.playSuccess();
@@ -1523,7 +1641,7 @@
     document.getElementById('btn-reset-dares').addEventListener('click', () => {
       if (confirm('¿Restablecer todas las penitencias a las originales?')) {
         state.customDares = JSON.parse(JSON.stringify(DEFAULT_DARES));
-        localStorage.removeItem('ruleta_dares_v5');
+        localStorage.removeItem('ruleta_dares_v6');
         renderCustomDaresList();
         sound.playTick();
       }
