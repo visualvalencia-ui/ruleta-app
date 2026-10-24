@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ruleta-v11';
+const CACHE_NAME = 'ruleta-v12';
 const ASSETS = [
   './index.html',
   './manifest.json',
