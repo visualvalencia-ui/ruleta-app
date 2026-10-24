@@ -753,16 +753,16 @@
         <h2 class="card-title" id="timer-title">Cumplido Sincero</h2>
         
         <div class="card-desc" id="timer-desc">
-          Tienes 40s para observar, pensar o indagar un cumplido sincero. ¡Prohibido repetir!
+          Tienes 30s para observar, pensar o indagar un cumplido sincero. ¡Prohibido repetir!
         </div>
 
-        <!-- 40s Circular Timer -->
+        <!-- 30s Circular Timer -->
         <div class="timer-circle">
           <svg viewBox="0 0 100 100">
             <circle class="bg" cx="50" cy="50" r="40"/>
             <circle class="progress" id="timer-circle-progress" cx="50" cy="50" r="40"/>
           </svg>
-          <div class="timer-number" id="timer-number">40</div>
+          <div class="timer-number" id="timer-number">30</div>
         </div>
 
         <div class="btn-grid-2">
@@ -1259,11 +1259,11 @@
       if (slice.type === 'p1') {
         tag.innerText = `✨ Turno de ${state.p1}`;
         title.innerText = `Cumplido para ${state.p2}`;
-        desc.innerText = `Tienes 40s para observar o investigar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 30s para observar o investigar y decirle a ${state.p2} algo sincero que te guste mucho. ¡Prohibido repetir!`;
       } else if (slice.type === 'p2') {
         tag.innerText = `✨ Turno de ${state.p2}`;
         title.innerText = `Cumplido para ${state.p1}`;
-        desc.innerText = `Tienes 40s para observar o investigar y decirle a ${state.p1} algo sincero que te guste. ¡Prohibido repetir!`;
+        desc.innerText = `Tienes 30s para observar o investigar y decirle a ${state.p1} algo sincero que te guste. ¡Prohibido repetir!`;
       } else if (slice.type === 'question') {
         tag.innerText = `⚡ Pregunta Rápida (Fase ${state.currentPhase})`;
         title.innerText = `Responde con la verdad`;
@@ -1271,10 +1271,10 @@
       } else if (slice.type === 'flag') {
         tag.innerText = `🚩 Mi Red Flag`;
         title.innerText = `Confesión sin filtro`;
-        desc.innerText = `Tienes 40s para confesar un defecto real tuyo o una manía que a los demás suele desesperarles.`;
+        desc.innerText = `Tienes 30s para confesar un defecto real tuyo o una manía que a los demás suele desesperarles.`;
       }
 
-      startCountdown('timer-circle-progress', 'timer-number', 40, () => {
+      startCountdown('timer-circle-progress', 'timer-number', 30, () => {
         sound.playBuzzer();
         sound.vibrate(80);
       });
