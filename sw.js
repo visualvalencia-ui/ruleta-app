@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ruleta-v9';
+const CACHE_NAME = 'ruleta-v10';
 const ASSETS = [
   './index.html',
   './manifest.json',
@@ -23,8 +23,22 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
+// Network-First para index.html para que siempre actualice solo
 self.addEventListener('fetch', (e) => {
+  if (e.request.mode === 'navigate' || e.request.destination === 'document') {
+    e.respondWith(
+      fetch(e.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
   e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
+    caches.match(e.request).then((cached) => cached || fetch(e.request))
   );
 });

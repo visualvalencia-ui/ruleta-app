@@ -965,6 +965,10 @@
       <button class="btn-outline" id="btn-reset-dares" style="width: 100%; margin-top: 16px; font-size: 12px; padding: 8px;">
         Restablecer al paquete original de fábrica
       </button>
+
+      <button class="btn-primary" id="btn-force-update" style="width: 100%; margin-top: 10px; font-size: 12px; padding: 10px; background: rgba(129, 140, 248, 0.15); border: 1px solid var(--accent-lavender); color: var(--accent-lavender);">
+        🔄 Forzar actualización inmediata
+      </button>
     </div>
   </div>
 
@@ -1667,10 +1671,50 @@
       }
     });
 
-    // PWA Service Worker Registration
+    // PWA Service Worker Registration & Auto-Update
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      let swRegistration = null;
+      let isRefreshing = false;
+
+      // Auto-recarga automática cuando se activa una nueva versión
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!isRefreshing) {
+          isRefreshing = true;
+          window.location.reload();
+        }
+      });
+
+      window.addEventListener('load', async () => {
+        try {
+          swRegistration = await navigator.serviceWorker.register('./sw.js');
+          // Forzar chequeo de actualización al arrancar
+          if (swRegistration) {
+            swRegistration.update().catch(() => {});
+          }
+        } catch (e) {}
+      });
+
+      // Chequeo automático cuando vuelves a abrir o desbloquear la app
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && swRegistration) {
+          swRegistration.update().catch(() => {});
+        }
+      });
+
+      // Botón manual de emergencia para forzar recarga en el celular
+      document.getElementById('btn-force-update').addEventListener('click', async () => {
+        try {
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+          }
+          if (swRegistration) {
+            await swRegistration.unregister();
+          }
+          window.location.reload(true);
+        } catch (err) {
+          window.location.reload();
+        }
       });
     }
 
